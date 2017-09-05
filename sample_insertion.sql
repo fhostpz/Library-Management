@@ -1,9 +1,9 @@
 
 create table material (mt_id char(9) not null,mt_title varchar(200) not null,mt_isbn varchar(20),mt_publisher varchar(100) not null,mt_publish_date date not null, mt_edition int ,mt_pageno int,mt_sh_id char(4) not null,mt_price decimal(8, 2) not null,mt_type varchar(15),primary key (mt_id),foreign key (mt_sh_id) references shelf(sh_id))
-insert into material values ('MT0000001','An Introduction to General, Organic, and Biological Chemistry (12th Edition)','9780321908445','Pearson','2014-01-01',12,'','sh01',1036.88,'Chemistry')
-insert into material values ('MT0000002','Basic Chemistry (5th Edition)','9780134138046','Pearson','2016-01-01',5,'','sh01',906.53,'Chemistry')
-insert into material values ('MT0000003','Intro to Java Programming, Comprehensive Version (10th Edition)','9780133761313','Pearson','2014-01-01',10,'','sh01',745.24,'Programming')
-insert into material values ('MT0000004','Operating System Concepts','9781118063330','Wiley','2012-12-01',NULL,'sh01',723.26,'')
+insert into material values ('MT0000001','An Introduction to General, Organic, and Biological Chemistry (12th Edition)','9780321908445','Pearson','2014-01-01',12,NULL,'SH01',1036.88,'Chemistry')
+insert into material values ('MT0000002','Basic Chemistry (5th Edition)','9780134138046','Pearson','2016-01-01',5,NULL,'SH01',906.53,'Chemistry')
+insert into material values ('MT0000003','Intro to Java Programming, Comprehensive Version (10th Edition)','9780133761313','Pearson','2014-01-01',10,NULL,'SH01',745.24,'Programming')
+insert into material values ('MT0000004','Operating System Concepts','9781118063330','Wiley','2012-12-01',NULL,NULL,'SH01',723.26,'')
 
 
              
