@@ -36,7 +36,8 @@ public class Login {
         this.loggedUsername = loggedUsername;
     }
 
-    public Login(String userID, final JPanel panel) {
+    public Login(String username, final JPanel panel) {
+        loggedUsername = username;
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,7 +57,6 @@ public class Login {
                     fail.setLocationRelativeTo(userName);
                     fail.pack();
                     fail.show();
-                    System.out.println("You fucked up");
                 }
             }
         });

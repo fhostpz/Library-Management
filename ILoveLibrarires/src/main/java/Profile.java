@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Profile {
     private String loggedUsername;
@@ -24,7 +23,7 @@ public class Profile {
     }
 
     //Constructor with Action Listener
-    public Profile(String input, final JPanel panel){
+    public Profile(String input, final JPanel panel, final JFrame die){
         loggedUsername = input;
         initUserData();
         System.out.println("User is " + loggedUsername);
@@ -54,21 +53,16 @@ public class Profile {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) panel.getLayout();
-                cardLayout.show(panel, "login");
-
+                //Dispose Current Frame
+                die.dispose();
+                //Call main to Display Login
+                main.main(null);
             }
         });
-
     }
 
     public Profile() {
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
     }
 
     public JPanel getProfilePanel() {

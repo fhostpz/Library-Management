@@ -22,6 +22,7 @@ public class EditProfile{
                 inputName.setText("");
                 inputEmail.setText("");
                 inputContactNo.setText("");
+                panel.revalidate();
             CardLayout cardLayout = (CardLayout) panel.getLayout();
             cardLayout.show(panel, "profile");
             }
@@ -124,7 +125,6 @@ public class EditProfile{
                 System.out.println("Do update Contact");
 
             }
-
             PreparedStatement updatePass = null;
             String updateString = "UPDATE member SET MB_NAME = ?, MB_EMAIL = ?, MB_CONTACT_NO = ? WHERE MB_NAME = ? ";
             System.out.println( "Name: " + toName + " EMail: " + toEmail + " Contact: " + toContact);
@@ -134,12 +134,10 @@ public class EditProfile{
             updatePass.setInt(3, Integer.parseInt(toContact));
             updatePass.setString(4, loggedUser);
             updatePass.executeUpdate();
-
         }
         catch(ClassNotFoundException e)
         {
             e.printStackTrace();
-
         }
         catch(SQLException e)
         {
