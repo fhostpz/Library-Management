@@ -3,6 +3,10 @@ insert into material values ('MT0000001','An Introduction to General, Organic, a
 insert into material values ('MT0000002','Basic Chemistry (5th Edition)','9780134138046','Pearson','2016-01-01',5,NULL,'SH01',906.53,'Chemistry')
 insert into material values ('MT0000003','Intro to Java Programming, Comprehensive Version (10th Edition)','9780133761313','Pearson','2014-01-01',10,NULL,'SH01',745.24,'Programming')
 insert into material values ('MT0000004','Operating System Concepts','9781118063330','Wiley','2012-12-01',NULL,NULL,'SH01',723.26,'')
+*new added*
+insert into material values ('MT0000005','Learn Python 3 the Hard Way: A Very Simple Introduction to the Terrifyingly Beautiful World of Computers and Code','9780134692883','Addison-Wesley Professional','2017-07-01',1,NULL,'SH01',167.62,'Programming')
+insert into material values ('MT0000006','Learn C the Hard Way: Practical Exercises on the Computational Subjects You Keep Avoiding (Like C)','9780321884923','Addison-Wesley Professional','2015-09-1',1,NULL,'SH01',167.62,'Programming')
+insert into material values ('MT0000007','Calculus, 6th Edition (Stewart's Calculus Series) (Available 2010 Titles Enhanced Web Assign)','9780495011606','Thomas Brooks/Cole',6,NULL,'SH01',1445.86,'Mathematics')
              
 create table material_copy(mc_id char(10) not null,mc_mt_id char(10) not null,mc_status varchar(9) not null check( mc_status in ('Borrowed','Lost','Available')), primary key (mc_id),foreign key (mc_mt_id) references material(mt_id))
 insert into material_copy values ('MC00000001','MT0000001','Available')
@@ -10,6 +14,7 @@ insert into material_copy values ('MC00000002','MT0000002','Available')
 insert into material_copy values ('MC00000003','MT0000003','Available')
 insert into material_copy values ('MC00000004','MT0000004','Available')
 insert into material_copy values ('MC00000005','MT0000001','Available')
+*new added*
 
 create table shelf(sh_id char(4) not null,sh_no int not null,sh_row int not null,primary key (sh_id))
 insert into shelf values ('SH01',1,1)
@@ -37,6 +42,8 @@ insert into author values('AU00003', 'Peter Baer Galvin')
 insert into author values('AU00004', 'Abraham Silberschatzn')
 insert into author values('AU00006', 'Y. Daniel Liang')
 insert into author values('AU00007', 'Zed Shaw')
+*new added*
+insert into author values('AU00005', 'James Stewart')
 
 create table link_author_material(lnk_mt_id char(10) not null,lnk_au_id char(7) not null,primary key (lnk_mt_id, lnk_au_id),foreign key (lnk_mt_id) references material(mt_id),foreign key (lnk_au_id) references author(au_id))
 insert into link_author_material values ('MT0000001','AU00001')
@@ -52,3 +59,7 @@ insert into member values('1000000002', 'Bear', 'M', 'bear@e97a.com', '010120012
 insert into member values('1000000003', 'Chia', 'F', 'chia@e97a.com', '01010301030', '1234_abcd', '1997-03-01', 123456, 0, 'UT01')
 insert into member values('1000000004', 'Dana', 'F', 'dana@e97a.com', '01040404040', '1234_abcd', '1997-04-01', 123456, 0, 'UT01')
 insert into member values('1000000005', 'Ezra', 'M', 'ezra@e97a.com', '01055005500', '1234_abcd', '1997-05-01', 123456, 0, 'UT01')
+*new added*
+insert into member values('1000000006', 'Faez', 'M', 'faez@e97a.com', '01066006600', '1234_abcd', '1997-06-01', 123456, 0, 'UT02')
+insert into member values('1000000007', 'Goku', 'F', 'goku@e97a.com', '01077007700', '1234_abcd', '1997-07-01', 123456, 0, 'UT03')
+insert into member values('1000000008', 'Haku', 'F', 'haku@e97a.com', '01088008800', '1234_abcd', '1997-08-01', 123456, 0, 'UT04')
