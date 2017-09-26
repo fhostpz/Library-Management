@@ -111,7 +111,8 @@ public class Profile {
                 }
 
                 email_data.setText(rs.getString(4));
-                contactNo_data.setText(Integer.toString(rs.getInt(5)));
+//                contactNo_data.setText(Integer.toString(rs.getInt(5)));
+                contactNo_data.setText(rs.getString(5));
                 type_data.setText(rs.getString(6));
             }
         }
