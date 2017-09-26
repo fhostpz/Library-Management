@@ -21,17 +21,12 @@ public class MaterialMainPage {
         return materialTable;
     }
 
-    public void setMaterialTable(JTable materialTable) {
-        this.materialTable = materialTable;
-    }
-
     public JPanel getMaterialMainPagePanel() {
         return materialMainPagePanel;
     }
 
     public MaterialMainPage(final JPanel panel) {
         Vector<Vector<String>> data = new Vector<Vector<String>>(10);
-        String input;
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
         String url = "jdbc:db2:testlib";
         Connection conn = null;
@@ -42,7 +37,7 @@ public class MaterialMainPage {
             conn = DriverManager.getConnection(url);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
-            // Extract records in ascending order by first name.
+            // Select Material ID, Title, ISBN, Publisher, Publish Date, Edition, Shelf, Price, and Type from Material
             System.out.println("Fetching records in ascending order...");
             String sql = ("SELECT MT_ID, " +
                     "MT_TITLE, " +
@@ -57,6 +52,7 @@ public class MaterialMainPage {
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
+                //Add results to Data vector to be included in the materialTable
                 data.add(counter,new Vector<String>(10));
                 Vector<String> rowVector = data.get(counter);
                 rowVector.add(rs.getString(1));
@@ -86,6 +82,7 @@ public class MaterialMainPage {
 
         }
 
+        //materialTable Columns
         Vector<String> columnNames = new Vector<String>(10);
         columnNames.add("ID");
         columnNames.add("Title");
@@ -96,6 +93,7 @@ public class MaterialMainPage {
         columnNames.add("Shelf");
         columnNames.add("Price");
         columnNames.add("Type");
+
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
 
         materialTable.setModel(model);
@@ -107,12 +105,6 @@ public class MaterialMainPage {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "main");
-            }
-        });
-        addMaterialButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
             }
         });
         addMaterialButton.addActionListener(new ActionListener() {
@@ -130,66 +122,4 @@ public class MaterialMainPage {
             }
         });
     }
-
-    public Vector<Vector<String>> createDataVector(){
-        //Create Data vector
-        //Import from Database
-        //I
-        Vector<Vector<String>> data = new Vector<Vector<String>>(10);
-        String input;
-        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
-        Connection conn = null;
-        int counter = 0;
-
-        try {
-            Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
-            System.out.println("Creating statement...");
-            Statement st = conn.createStatement();
-            // Extract records in ascending order by first name.
-            System.out.println("Fetching records in ascending order...");
-            String sql = ("SELECT MT_ID, " +
-                    "MT_TITLE, " +
-                    "MT_ISBN, " +
-                    "MT_PUBLISHER, " +
-                    "MT_PUBLISH_DATE, " +
-                    "MT_EDITION, " +
-                    "MT_SH_ID, " +
-                    "MT_PRICE, " +
-                    "MT_TYPE " +
-                    "from material");
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                data.add(counter,new Vector<String>(10));
-                Vector<String> rowVector = data.get(counter);
-                rowVector.add(rs.getString(1));
-                rowVector.add(rs.getString(2));
-                rowVector.add(rs.getString(3));
-                rowVector.add(rs.getString(4));
-                rowVector.add(rs.getString(5));
-                rowVector.add(rs.getString(6));
-                rowVector.add(rs.getString(7));
-                rowVector.add(rs.getString(8));
-                rowVector.add(rs.getString(9));
-                counter++;
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        } finally {
-            if (conn != null) {
-                System.out.println("Connection success!");
-            }
-        }
-
-
-
-        return data;
-    }
-
 }

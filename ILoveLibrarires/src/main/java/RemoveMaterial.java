@@ -19,6 +19,7 @@ public class RemoveMaterial {
     }
 
     public RemoveMaterial(final JPanel panel, final JTable table) {
+        //Update table in RemoveMaterial Card
         updateTable(materialTable);
 
         cancelButton.addActionListener(new ActionListener() {
@@ -32,20 +33,18 @@ public class RemoveMaterial {
         acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                loginFail fail = new loginFail();
                 String theMaterial = "";
                 String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
                 String url = "jdbc:db2:testlib";
                 Connection conn = null;
+
                 try
                 {
                     Class.forName(jdbcClassName);
                     conn = DriverManager.getConnection(url);
-
-                    System.out.println("Creating statement...");
                     Statement st = conn.createStatement();
-
-                    // Extract records in ascending order by first name.
-                    System.out.println("Fetching records in ascending order...");
+                    //Select Title from Material Table given the Material ID
                     String sql = ("SELECT MT_TITLE FROM material WHERE MT_ID = '" + inputMaterialID.getText()+ "'");
                     ResultSet rs = st.executeQuery(sql);
                     while(rs.next())
@@ -61,6 +60,24 @@ public class RemoveMaterial {
                 catch(SQLException w)
                 {
                     w.printStackTrace();
+                    fail.setLocationRelativeTo(removeMaterialPanel);
+                    fail.setMessage1("Input Error");
+                    switch(w.getErrorCode()){
+                        case (-180):
+                            fail.setMessage1("SQL Error Code -180");
+                            fail.setMessage2("Data Format is incorrect (YYYY/MM/DD)");
+                            break;
+                        case (-420):
+                            fail.setMessage1("SQL Error Code -420");
+                            fail.setMessage2("A string is entered, when an integer is required.");
+                            break;
+                        default:
+                            fail.setMessage1("SQL Error Code " + w.getErrorCode());
+                            fail.setMessage2("SQL Error");
+                            break;
+                    }
+                    fail.pack();
+                    fail.show();
 
                 }
                 finally
@@ -70,11 +87,14 @@ public class RemoveMaterial {
                         System.out.println("Connection success!");
                     }
                 }
+                //Call a Dialog to confirm removal
                 confirmRemove remove = new confirmRemove(inputMaterialID);
                 remove.setMaterial_name_data(theMaterial);
                 remove.pack();
                 remove.show();
+                //Update table in MaterMainPage Card
                 updateTable(table);
+                //Update table in RemoveMaterial Card
                 updateTable(materialTable);
             }
         });

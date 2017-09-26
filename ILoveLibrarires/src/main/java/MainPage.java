@@ -12,12 +12,14 @@ public class MainPage {
 
     public MainPage(String name, final JPanel panel) {
         loggedUsername = name;
+        //Enable Library Material Management Access if a librarian is logged in
         if (isLibrian(loggedUsername)){
             libraryMaterialsButton.setEnabled(true);
         }
         else{
             libraryMaterialsButton.setEnabled(false);
         }
+
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +53,9 @@ public class MainPage {
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.
             System.out.println("Fetching records in ascending order...");
-            String sql = ("SELECT UT_ROLE from member, usertype where member.MB_TYPE_ID = usertype.UT_ID and MB_NAME = '" + loggedUsername + "'");
+            String sql = ("SELECT UT_ROLE from member, usertype " +
+                    "where member.MB_TYPE_ID = usertype.UT_ID " +
+                    "and MB_NAME = '" + loggedUsername + "'");
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {

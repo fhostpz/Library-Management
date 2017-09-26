@@ -14,6 +14,10 @@ public class EditProfile{
     private JTextField inputEmail;
     private JTextField inputContactNo;
 
+    public JPanel getEditProfile() {
+        return editProfile;
+    }
+
     public EditProfile(String username,final JPanel panel) {
         loggedUser = username;
         cancelButton.addActionListener(new ActionListener() {
@@ -43,10 +47,6 @@ public class EditProfile{
         });
     }
 
-    public JPanel getEditProfile() {
-        return editProfile;
-    }
-
     public void checkIfEmpty(){
         loginFail fail = new loginFail();
         if (inputName.getText().equals("") && inputEmail.getText().equals("") && inputContactNo.getText().equals(""))
@@ -63,8 +63,10 @@ public class EditProfile{
     }
 
     public void updateMember(){
+        //String Variable to hold information to send to database.
         String toName = "fe", toEmail = "fe", toContact = "fe";
-        String mahtext = "fe", mahtext2 = "fe", mahtext3 = "fe";
+        //Temporary String Varaible to hold information obtain from database query
+        String tempText = "fe", tempText2 = "fe", tempText3 = "fe";
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
         String url = "jdbc:db2:testlib";
         Connection conn = null;
@@ -84,16 +86,16 @@ public class EditProfile{
 
             while(rs.next())
             {
-                mahtext = rs.getString(1);
-                mahtext2 = rs.getString(2);
-                mahtext3 = rs.getString(3);
+                tempText = rs.getString(1);
+                tempText2 = rs.getString(2);
+                tempText3 = rs.getString(3);
             }
 
-            System.out.println( "Name: " + mahtext + " EMail: " +mahtext2 + " Contact: "+mahtext3);
+            System.out.println( "Name: " + tempText + " EMail: " +tempText2 + " Contact: "+tempText3);
 
             if (inputName.getText().equals(""))
             {
-                toName = mahtext;
+                toName = tempText;
                 System.out.println("Do not update Name");
             }
             else
@@ -104,7 +106,7 @@ public class EditProfile{
 
             if (inputEmail.getText().equals(""))
             {
-                toEmail = mahtext2;
+                toEmail = tempText2;
                 System.out.println("Do not update Email");
             }
             else
@@ -116,7 +118,7 @@ public class EditProfile{
 
             if (inputContactNo.getText().equals(""))
             {
-                toContact = mahtext3;
+                toContact = tempText3;
                 System.out.println("Do not update ContactNo");
             }
             else
@@ -131,7 +133,6 @@ public class EditProfile{
             updatePass = conn.prepareStatement(updateString);
             updatePass.setString(1, toName);
             updatePass.setString(2, toEmail);
-//            updatePass.setInt(3, Integer.parseInt(toContact));
             updatePass.setString(3, toContact);
             updatePass.setString(4, loggedUser);
             updatePass.executeUpdate();

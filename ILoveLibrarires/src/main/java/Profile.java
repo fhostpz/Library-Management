@@ -22,11 +22,13 @@ public class Profile {
         this.loggedUsername = loggedUsername;
     }
 
+    public Profile (){}
+
     //Constructor with Action Listener
     public Profile(String input, final JPanel panel, final JFrame die){
         loggedUsername = input;
+        //Initialize User Data
         initUserData();
-        System.out.println("User is " + loggedUsername);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,10 +63,6 @@ public class Profile {
         });
     }
 
-    public Profile() {
-
-    }
-
     public JPanel getProfilePanel() {
         return profilePanel;
     }
@@ -81,7 +79,7 @@ public class Profile {
             conn = DriverManager.getConnection(url);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
-            // Extract records in ascending order by first name.
+
             System.out.println("Fetching records in ascending order...");
             String sql = ("SELECT MB_ID," +
                     "MB_NAME, " +
@@ -97,6 +95,7 @@ public class Profile {
                 username_data.setText(rs.getString(1));
                 name_data.setText(rs.getString(2));
                 gender_data.setText(rs.getString(3));
+
                 if (gender_data.getText().equals("M"))
                 {
                     gender_data.setText("Male");
@@ -111,7 +110,6 @@ public class Profile {
                 }
 
                 email_data.setText(rs.getString(4));
-//                contactNo_data.setText(Integer.toString(rs.getInt(5)));
                 contactNo_data.setText(rs.getString(5));
                 type_data.setText(rs.getString(6));
             }
