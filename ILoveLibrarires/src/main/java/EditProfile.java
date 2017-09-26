@@ -121,7 +121,7 @@ public class EditProfile{
             }
             else
             {
-                toContact = inputEmail.getText();
+                toContact = inputContactNo.getText();
                 System.out.println("Do update Contact");
 
             }
@@ -131,7 +131,8 @@ public class EditProfile{
             updatePass = conn.prepareStatement(updateString);
             updatePass.setString(1, toName);
             updatePass.setString(2, toEmail);
-            updatePass.setInt(3, Integer.parseInt(toContact));
+//            updatePass.setInt(3, Integer.parseInt(toContact));
+            updatePass.setString(3, toContact);
             updatePass.setString(4, loggedUser);
             updatePass.executeUpdate();
         }

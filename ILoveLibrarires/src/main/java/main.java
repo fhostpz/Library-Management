@@ -113,8 +113,8 @@ public class main {
                             ChangePassword changePasswordPage = new ChangePassword(inputUsername.getText() ,mainPanel);
                             EditProfile editProfilePage = new EditProfile(inputUsername.getText(), mainPanel);
                             MaterialMainPage materialMainPage = new MaterialMainPage(mainPanel);
-                            AddMaterial addMaterialPage = new AddMaterial(mainPanel);
-                            RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel);
+                            AddMaterial addMaterialPage = new AddMaterial(mainPanel, materialMainPage.getMaterialTable());
+                            RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel, materialMainPage.getMaterialTable());
 
                             JPanel loginCard = loginPage.getLoginPanel();
                             JPanel mainPageCard = mainPage.getMainPage();
