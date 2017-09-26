@@ -20,6 +20,7 @@ public class loginFail extends JDialog {
     public loginFail() {
         setContentPane(contentPane);
         setModal(true);
+
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
