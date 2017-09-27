@@ -36,9 +36,7 @@ public class Search {
     }
 
     public Search(final JPanel panel){
-        
         Vector<Vector<String>> data = new Vector<Vector<String>>(10);
-        String input;
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
         String url = "jdbc:db2:testlib";
         Connection conn = null;

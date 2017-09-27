@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.TimerTask;
 import java.util.Vector;
 
 public class RemoveMaterial {
@@ -13,14 +14,15 @@ public class RemoveMaterial {
     private JButton acceptButton;
     private JButton cancelButton;
     private JTable materialTable;
+    private JButton refreshButton;
 
     public JPanel getRemoveMaterialPanel() {
         return removeMaterialPanel;
     }
 
     public RemoveMaterial(final JPanel panel, final JTable table) {
+        //Update table in RemoveMaterial Card
         updateTable(materialTable);
-
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -32,20 +34,18 @@ public class RemoveMaterial {
         acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MessageDialog message = new MessageDialog();
                 String theMaterial = "";
                 String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
                 String url = "jdbc:db2:testlib";
                 Connection conn = null;
+
                 try
                 {
                     Class.forName(jdbcClassName);
                     conn = DriverManager.getConnection(url);
-
-                    System.out.println("Creating statement...");
                     Statement st = conn.createStatement();
-
-                    // Extract records in ascending order by first name.
-                    System.out.println("Fetching records in ascending order...");
+                    //Select Title from Material Table given the Material ID
                     String sql = ("SELECT MT_TITLE FROM material WHERE MT_ID = '" + inputMaterialID.getText()+ "'");
                     ResultSet rs = st.executeQuery(sql);
                     while(rs.next())
@@ -61,7 +61,24 @@ public class RemoveMaterial {
                 catch(SQLException w)
                 {
                     w.printStackTrace();
-
+                    message.setLocationRelativeTo(removeMaterialPanel);
+                    message.setMessage1("Input Error");
+                    switch(w.getErrorCode()){
+                        case (-180):
+                            message.setMessage1("SQL Error Code -180");
+                            message.setMessage2("Data Format is incorrect (YYYY/MM/DD)");
+                            break;
+                        case (-420):
+                            message.setMessage1("SQL Error Code -420");
+                            message.setMessage2("A string is entered, when an integer is required.");
+                            break;
+                        default:
+                            message.setMessage1("SQL Error Code " + w.getErrorCode());
+                            message.setMessage2("SQL Error");
+                            break;
+                    }
+                    message.pack();
+                    message.show();
                 }
                 finally
                 {
@@ -70,11 +87,20 @@ public class RemoveMaterial {
                         System.out.println("Connection success!");
                     }
                 }
+                //Call a Dialog to confirm removal
                 confirmRemove remove = new confirmRemove(inputMaterialID);
                 remove.setMaterial_name_data(theMaterial);
                 remove.pack();
                 remove.show();
+                //Update table in MaterMainPage Card
                 updateTable(table);
+                //Update table in RemoveMaterial Card
+                updateTable(materialTable);
+            }
+        });
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 updateTable(materialTable);
             }
         });
