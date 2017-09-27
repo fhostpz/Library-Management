@@ -1,5 +1,8 @@
 # Library-Management
 
+Build 27/09-1206
+- Refresh button added to remove material. Users may now refresh the material table in remove material page.
+
 Build 27/09-0158
 
 - Librarians can now add new users using the add user function. [Miguel]
