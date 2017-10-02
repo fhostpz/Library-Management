@@ -1,7 +1,7 @@
 # Library-Management
 
 Build 02/10 -2257
-- Reset Password fucntion working.
+- Reset Password function working.
 
 Build 27/09-1206
 - Refresh button added to remove material. Users may now refresh the material table in remove material page.
