@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +42,7 @@ public class AddUser {
     }
 
     public void checkIfEmpty(){
-        messageDialog fail = new messageDialog();
+        MessageDialog fail = new MessageDialog();
         if (    inputID.getText().equals("")
                 && inputName.getText().equals("")
                 && inputGender.getText().equals("")
@@ -82,7 +81,7 @@ public class AddUser {
     }
 
     public void addUser(){
-        messageDialog fail = new messageDialog();
+        MessageDialog fail = new MessageDialog();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
         String url = "jdbc:db2:testlib";
         Connection conn = null;
@@ -94,85 +93,6 @@ public class AddUser {
 
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
-
-            if (inputID.getText().equals(""))
-            {
-                System.out.println("Do not insert ID");
-            }
-            else
-            {
-                System.out.println("Do insert ID");
-            }
-
-            if (inputName.getText().equals(""))
-            {
-                System.out.println("Do not insert Name");
-            }
-            else
-            {
-                System.out.println("Do insert Name");
-            }
-
-            if (inputGender.getText().equals(""))
-            {
-                System.out.println("Do not insert Gender");
-            }
-            else
-            {
-                System.out.println("Do insert Gender");
-            }
-
-            if (inputEmail.getText().equals(""))
-            {
-                System.out.println("Do not insert Email");
-            }
-            else
-            {
-                System.out.println("Do insert Email");
-            }
-
-            if (inputContact.getText().equals(""))
-            {
-                System.out.println("Do not insert Contact");
-            }
-            else
-            {
-                System.out.println("Do insert Contact");
-            }
-
-            if (inputPassword.getText().equals(""))
-            {
-                System.out.println("Do not insert Password");
-            }
-            else
-            {
-                System.out.println("Do insert Password");
-            }
-
-            if (inputDob.getText().equals(""))
-            {
-                System.out.println("Do not insert DOB");
-            }
-            else
-            {
-                System.out.println("Do insert Dob");
-            }
-            if (inputPin.getText().equals(""))
-            {
-                System.out.println("Do not insert Pin");
-            }
-            else
-            {
-                System.out.println("Do insert Pin");
-            }
-            if (inputType.getText().equals(""))
-            {
-                System.out.println("Do not insert type");
-            }
-            else
-            {
-                System.out.println("Do insert type");
-            }
 
             String defaultPageNo = "0";
             PreparedStatement insertUser = null;

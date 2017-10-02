@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ILoveLibrarires:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ILoveLibrarires_jar</output-path>
+    <root id="archive" name="ILoveLibrarires_jar.jar">
+      <element id="module-output" name="ILoveLibrarires" />
+      <element id="extracted-dir" path="C:/Program Files/IBM/SQLLIB/java/db2jcc.jar" path-in-jar="/" />
+      <element id="library" level="project" name="db2jcc" />
+    </root>
+  </artifact>
+</component>

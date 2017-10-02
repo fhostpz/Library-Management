@@ -73,11 +73,6 @@ public class confirmRemove extends JDialog {
             Class.forName(jdbcClassName);
             conn = DriverManager.getConnection(url);
 
-            System.out.println("Creating statement...");
-            Statement st = conn.createStatement();
-
-            // Extract records in ascending order by first name.
-            System.out.println("Fetching records in ascending order...");
             String sql = ("DELETE FROM material WHERE MT_ID = '" + inputMaterialID.getText()+ "'");
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.execute();
@@ -90,12 +85,14 @@ public class confirmRemove extends JDialog {
         catch(SQLException e)
         {
             e.printStackTrace();
-
         }
         finally
         {
             if(conn != null)
             {
+                try {
+                    conn.close();
+                } catch (SQLException e){}
                 System.out.println("Connection success!");
             }
         }

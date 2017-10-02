@@ -18,21 +18,50 @@ public class Profile {
     private JLabel contactNo_data;
     private JLabel gender_data;
 
+    public JLabel getUsername_data() {
+        return username_data;
+    }
+
+    public JLabel getContactNo_data() {
+        return contactNo_data;
+    }
+
+    public JLabel getEmail_data() {
+        return email_data;
+    }
+
+    public JLabel getGender_data() {
+        return gender_data;
+    }
+
+    public JLabel getName_data() {
+        return name_data;
+    }
+
+    public JLabel getType_data() {
+        return type_data;
+    }
+
+    public JPanel getProfilePanel() {
+        return profilePanel;
+    }
+
     public void setLoggedUsername(String loggedUsername) {
         this.loggedUsername = loggedUsername;
     }
 
+    public Profile (){}
+
     //Constructor with Action Listener
     public Profile(String input, final JPanel panel, final JFrame die){
         loggedUsername = input;
+        //Initialize User Data
         initUserData();
-        System.out.println("User is " + loggedUsername);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "main");
-
             }
         });
         changePasswordButton.addActionListener(new ActionListener() {
@@ -40,7 +69,6 @@ public class Profile {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "changePassword");
-
             }
         });
         editButton.addActionListener(new ActionListener() {
@@ -61,14 +89,6 @@ public class Profile {
         });
     }
 
-    public Profile() {
-
-    }
-
-    public JPanel getProfilePanel() {
-        return profilePanel;
-    }
-
     public void initUserData()
     {
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
@@ -79,10 +99,9 @@ public class Profile {
         {
             Class.forName(jdbcClassName);
             conn = DriverManager.getConnection(url);
-            System.out.println("Creating statement...");
             Statement st = conn.createStatement();
-            // Extract records in ascending order by first name.
-            System.out.println("Fetching records in ascending order...");
+
+            System.out.println("Fetching User Records From Member Table");
             String sql = ("SELECT MB_ID," +
                     "MB_NAME, " +
                     "MB_GENDER, " +
@@ -97,6 +116,10 @@ public class Profile {
                 username_data.setText(rs.getString(1));
                 name_data.setText(rs.getString(2));
                 gender_data.setText(rs.getString(3));
+                email_data.setText(rs.getString(4));
+                contactNo_data.setText(rs.getString(5));
+                type_data.setText(rs.getString(6));
+
                 if (gender_data.getText().equals("M"))
                 {
                     gender_data.setText("Male");
@@ -110,26 +133,24 @@ public class Profile {
                     gender_data.setText("semiqueer-bi");
                 }
 
-                email_data.setText(rs.getString(4));
-//                contactNo_data.setText(Integer.toString(rs.getInt(5)));
-                contactNo_data.setText(rs.getString(5));
-                type_data.setText(rs.getString(6));
+
             }
         }
         catch(ClassNotFoundException e)
         {
             e.printStackTrace();
-
         }
         catch(SQLException e)
         {
             e.printStackTrace();
-
         }
         finally
         {
             if(conn != null)
             {
+                try {
+                    conn.close();
+                } catch (SQLException e){}
                 System.out.println("Connection success!");
             }
         }

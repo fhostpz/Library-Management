@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class ForgotPassword_2 {
     String username;
@@ -26,7 +25,8 @@ public class ForgotPassword_2 {
         System.out.println(username);
     }
 
-    public ForgotPassword_2(final JPanel panel) {
+    public ForgotPassword_2(final JPanel panel, String username) {
+        this.username = username;
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,10 +78,10 @@ public class ForgotPassword_2 {
             }
             else
             {
-                loginFail fail = new loginFail();
-                fail.setLocationRelativeTo(forgotPass_2);
-                fail.pack();
-                fail.show();
+                MessageDialog message = new MessageDialog();
+                message.setLocationRelativeTo(forgotPass_2);
+                message.pack();
+                message.show();
             }
 
         }

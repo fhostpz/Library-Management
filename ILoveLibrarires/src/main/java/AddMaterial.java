@@ -1,12 +1,9 @@
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Vector;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -48,7 +45,7 @@ public class AddMaterial {
     }
 
     public void checkIfEmpty(){
-        loginFail fail = new loginFail();
+        MessageDialog fail = new MessageDialog();
         if (    inputTitle.getText().equals("")
                 && inputISBN.getText().equals("")
                 && inputPublisher.getText().equals("")
@@ -59,6 +56,20 @@ public class AddMaterial {
         {
             fail.setLocationRelativeTo(addMaterialPanel);
             fail.setMessage2("Text Fields are empty");
+            fail.pack();
+            fail.show();
+        } else if (
+                    inputTitle.getText().equals("")
+                    || inputISBN.getText().equals("")
+                    || inputPublisher.getText().equals("")
+                    || inputPublishDate.getText().equals("")
+                    || inputEdition.getText().equals("")
+                    || inputPrice.getText().equals("")
+                    || inputEdition.getText().equals("")
+                )
+        {
+            fail.setLocationRelativeTo(addMaterialPanel);
+            fail.setMessage2("A Text Field is empty");
             fail.pack();
             fail.show();
         }
@@ -142,11 +153,8 @@ public class AddMaterial {
         column.setPreferredWidth(500);
     }
 
-
     public void addMaterial(JTable table){
-        String toTitle = " ", toISBN = " ", toPublisher = " ", toPublishDate = " ", toEditon= " "
-                , toPrice = " ", toType = " ";
-        String mahtext = " ", mahtext2 = " ", mahtext3 = " ";
+        MessageDialog fail = new MessageDialog();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
         String url = "jdbc:db2:testlib";
         Connection conn = null;
@@ -155,86 +163,6 @@ public class AddMaterial {
         {
             Class.forName(jdbcClassName);
             conn = DriverManager.getConnection(url);
-
-            System.out.println("Creating statement...");
-            Statement st = conn.createStatement();
-
-            if (inputTitle.getText().equals(""))
-            {
-                toTitle = mahtext;
-                System.out.println("Do not insert Title");
-            }
-            else
-            {
-                toTitle = inputTitle.getText();
-                System.out.println("Do insert Title");
-            }
-
-            if (inputISBN.getText().equals(""))
-            {
-                toISBN = mahtext2;
-                System.out.println("Do not insert ISBN");
-            }
-            else
-            {
-                toISBN = inputISBN.getText();
-                System.out.println("Do insert ISBN");
-            }
-
-            if (inputPublisher.getText().equals(""))
-            {
-                toPublisher = mahtext3;
-                System.out.println("Do not insert Publisher");
-            }
-            else
-            {
-                toPublisher = inputPublisher.getText();
-                System.out.println("Do insert Publisher");
-            }
-
-            if (inputEdition.getText().equals(""))
-            {
-                toEditon = mahtext3;
-                System.out.println("Do not insert Edition");
-            }
-            else
-            {
-                toEditon = inputEdition.getText();
-                System.out.println("Do insert Edition");
-            }
-
-            if (inputPublishDate.getText().equals(""))
-            {
-                toPublishDate = mahtext3;
-                System.out.println("Do not insert Publish Date");
-            }
-            else
-            {
-                toPublishDate = inputPublishDate.getText();
-                System.out.println("Do insert Publish Date");
-            }
-
-            if (inputPrice.getText().equals(""))
-            {
-                toPrice = mahtext3;
-                System.out.println("Do not insert Price");
-            }
-            else
-            {
-                toPrice = inputPrice.getText();
-                System.out.println("Do insert Price");
-            }
-
-            if (inputType.getText().equals(""))
-            {
-                toType = mahtext3;
-                System.out.println("Do not insert Type");
-            }
-            else
-            {
-                toType = inputType.getText();
-                System.out.println("Do insert Type");
-            }
 
             PreparedStatement insertMaterial = null;
             String updateString = "INSERT INTO material " +
@@ -250,19 +178,9 @@ public class AddMaterial {
                     inputPrice.getText() + "', '" +
                     shelfCombo.getSelectedItem() + "', '" +
                     inputType.getText() + "')";
+
             insertMaterial = conn.prepareStatement(updateString);
-//            insertMaterial.setString(1, toTitle);
-//            insertMaterial.setString(2, toISBN);
-//            insertMaterial.setString(3, toPublisher);
-//            insertMaterial.setString(4, toPublishDate);
-//            insertMaterial.setString(5, toEditon);
-//            insertMaterial.setString(6, toPrice);
-//            insertMaterial.setString(7, toType);
             insertMaterial.executeUpdate();
-            DefaultTableModel dm = (DefaultTableModel)table.getModel();
-            dm.fireTableDataChanged();
-            table.updateUI();
-            table.repaint();
         }
         catch(ClassNotFoundException e)
         {
@@ -270,6 +188,25 @@ public class AddMaterial {
         }
         catch(SQLException e)
         {
+            fail.setLocationRelativeTo(addMaterialPanel);
+            fail.setMessage1("Input Error");
+            switch(e.getErrorCode()){
+                case (-180):
+                    fail.setMessage1("SQL Error Code -180");
+                    fail.setMessage2("Data Format is incorrect (YYYY/MM/DD)");
+                    break;
+                case (-420):
+                    fail.setMessage1("SQL Error Code -420");
+                    fail.setMessage2("A string is entered, when an integer is required.");
+                    break;
+                default:
+                    fail.setMessage1("SQL Error Code " + e.getErrorCode());
+                    fail.setMessage2("SQL Error");
+                    break;
+            }
+            fail.pack();
+            fail.show();
+
             e.printStackTrace();
         }
         finally

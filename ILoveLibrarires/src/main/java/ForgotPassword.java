@@ -37,11 +37,11 @@ public class ForgotPassword {
                 }
                 else
                 {
-                    loginFail fail = new loginFail();
-                    fail.setMessage2("Username or Security Pin Fail");
-                    fail.setLocationRelativeTo(forgotPass_1);
-                    fail.pack();
-                    fail.show();
+                    MessageDialog message = new MessageDialog();
+                    message.setMessage2("Username or Security Pin Fail");
+                    message.setLocationRelativeTo(forgotPass_1);
+                    message.pack();
+                    message.show();
                 }
 
             }
@@ -49,7 +49,7 @@ public class ForgotPassword {
     }
 
     public Boolean credentialsValid(){
-        String mahtext, mahtext2;
+        String mb_name, mb_pin;
         ArrayList<String> usernameArray = new ArrayList<String>();
         ArrayList<String> securityPinArray =new ArrayList<String>();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
@@ -71,10 +71,10 @@ public class ForgotPassword {
 
             while(rs.next())
             {
-                mahtext = rs.getString(1);
-                mahtext2 = rs.getString(2);
-                usernameArray.add(mahtext);
-                securityPinArray.add(mahtext2);
+                mb_name = rs.getString(1);
+                mb_pin = rs.getString(2);
+                usernameArray.add(mb_name);
+                securityPinArray.add(mb_pin);
             }
 
             for (int i = 0; i < usernameArray.size(); i++)

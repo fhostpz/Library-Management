@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.TimerTask;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class RemoveMaterial {
@@ -15,6 +15,7 @@ public class RemoveMaterial {
     private JButton cancelButton;
     private JTable materialTable;
     private JButton refreshButton;
+    private JComboBox materialCombBox;
 
     public JPanel getRemoveMaterialPanel() {
         return removeMaterialPanel;
@@ -104,6 +105,12 @@ public class RemoveMaterial {
                 updateTable(materialTable);
             }
         });
+        materialCombBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void updateTable(JTable materialTable){
@@ -176,5 +183,44 @@ public class RemoveMaterial {
         materialTable.setModel(model);
         TableColumn column = materialTable.getColumnModel().getColumn(1);
         column.setPreferredWidth(500);
+    }
+
+    public void addToComboBox(){
+        String theMaterial = "";
+        ArrayList<String> mt_id = new ArrayList<String>();
+        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+        String url = "jdbc:db2:testlib";
+        Connection conn = null;
+
+        try
+        {
+            Class.forName(jdbcClassName);
+            conn = DriverManager.getConnection(url);
+            Statement st = conn.createStatement();
+            //Select Title from Material Table given the Material ID
+            String sql = ("SELECT MT_ID FROM material");
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next())
+            {
+                theMaterial = rs.getString(1);
+            }
+        }
+        catch(ClassNotFoundException w)
+        {
+            w.printStackTrace();
+
+        }
+        catch(SQLException w)
+        {
+            w.printStackTrace();
+        }
+        finally
+        {
+            if(conn != null)
+            {
+                System.out.println("Connection success!");
+            }
+        }
+
     }
 }
