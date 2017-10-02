@@ -6,17 +6,26 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ForgotPassword {
+    private String loggedUsername;
     private JPanel forgotPass_1;
     private JTextField inputUserName;
     private JTextField inputSecurityPin;
     private JButton acceptButton;
     private JButton cancelButton;
 
+    public JTextField getInputUserName() {
+        return inputUserName;
+    }
+
+    public JTextField getInputSecurityPin() {
+        return inputSecurityPin;
+    }
+
     public JPanel getForgotPass_1() {
         return forgotPass_1;
     }
 
-    public ForgotPassword(final JPanel panel) {
+    public ForgotPassword(final JPanel panel, final ForgotPassword_2 fp2) {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,6 +43,9 @@ public class ForgotPassword {
                 {
                     CardLayout cardLayout = (CardLayout) panel.getLayout();
                     cardLayout.show(panel, "forgotPassword2");
+                    System.out.println(loggedUsername);
+                    fp2.setUsername(loggedUsername);
+
                 }
                 else
                 {
@@ -50,6 +62,7 @@ public class ForgotPassword {
 
     public Boolean credentialsValid(){
         String mb_name, mb_pin;
+        Boolean finalDecision = false;
         ArrayList<String> usernameArray = new ArrayList<String>();
         ArrayList<String> securityPinArray =new ArrayList<String>();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
@@ -84,17 +97,12 @@ public class ForgotPassword {
 
                 if (text.equals(usernameArray.get(i)) && text1.equals(securityPinArray.get(i)))
                 {
-                    ForgotPassword_2 thePass = new ForgotPassword_2(text);
-                    System.out.println(text);
-                    thePass.setUsername(text);
-
-                    System.out.println("Correct");
-                    return true;
+                    loggedUsername = text;
+                    finalDecision  = true;
                 }
                 else
                 {
-                    System.out.println("Hidung");
-                    return false;
+                    finalDecision = false;
                 }
             }
         }
@@ -115,6 +123,6 @@ public class ForgotPassword {
                 System.out.println("Connection success!");
             }
         }
-        return false;
+        return finalDecision;
     }
 }

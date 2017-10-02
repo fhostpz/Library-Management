@@ -83,14 +83,15 @@ public class main {
         LoginPanel.setPreferredSize(new Dimension(1024, 640));
 
         //Set the cardPanel to use the card layout.
-        final JPanel cardPanel = new JPanel();
+        JPanel cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
         LoginPanel.add(cardPanel);
 
-        ForgotPassword forgotPasswordPage = new ForgotPassword(cardPanel);
         ForgotPassword_2 forgotPassword_2Page = new ForgotPassword_2(cardPanel, inputUsername.getText());
-        final JPanel forgotPasswordCard = forgotPasswordPage.getForgotPass_1();
-        final JPanel forgotPassword_2Card = forgotPassword_2Page.getForgotPass_2();
+        ForgotPassword forgotPasswordPage = new ForgotPassword(cardPanel, forgotPassword_2Page);
+
+        JPanel forgotPasswordCard = forgotPasswordPage.getForgotPass_1();
+        JPanel forgotPassword_2Card = forgotPassword_2Page.getForgotPass_2();
 
         cardPanel.add(mainPanel, "login");
         cardPanel.add(forgotPasswordCard, "forgotPassword");
@@ -101,9 +102,12 @@ public class main {
         mainFrame.setVisible(true);
 
         fypButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                String loggedUsername;
                 cardLayout.show(cardPanel, "forgotPassword");
+
             }
         });
 

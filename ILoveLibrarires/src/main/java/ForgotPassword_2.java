@@ -20,13 +20,7 @@ public class ForgotPassword_2 {
         return forgotPass_2;
     }
 
-    public ForgotPassword_2(String username){
-        this.username = username;
-        System.out.println(username);
-    }
-
     public ForgotPassword_2(final JPanel panel, String username) {
-        this.username = username;
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,14 +31,14 @@ public class ForgotPassword_2 {
         acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setNewPassword();
+                setNewPassword(panel);
+                System.out.println("Username: " + username);
 
             }
         });
     }
 
-    public Boolean setNewPassword(){
-        String mahtext;
+    public Boolean setNewPassword(JPanel panel){
         String newPass = inputNewPassword.getText();
         String newPass2 = inputNewPassword2.getText();
 
@@ -66,15 +60,24 @@ public class ForgotPassword_2 {
             String sql = ("SELECT MB_NAME, MB_PIN from member");
             ResultSet rs = st.executeQuery(sql);
 
-            if (newPass.equals(newPass2) )
+            if (newPass.equals(newPass2))
             {
-                System.out.println(username);
                 PreparedStatement updatePass = null;
-                String updateString = "UPDATE member SET MB_PASSWORD = ? WHERE MB_NAME = ? ;";
+                String updateString = "UPDATE member SET MB_PASSWORD = ? WHERE MB_NAME = ?";
                 updatePass = conn.prepareStatement(updateString);
                 updatePass.setString(1, newPass);
                 updatePass.setString(2, username);
                 updatePass.executeUpdate();
+
+                MessageDialog message = new MessageDialog();
+                message.setLocationRelativeTo(forgotPass_2);
+                message.setMessage2("Success");
+                message.setMessage1("Password is Successfully changed");
+                message.pack();
+                message.show();
+                CardLayout cardLayout = (CardLayout) panel.getLayout();
+                cardLayout.show(panel, "login");
+
             }
             else
             {
