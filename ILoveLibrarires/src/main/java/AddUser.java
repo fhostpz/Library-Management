@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +19,16 @@ public class AddUser {
     private JTextField inputType;
     private JButton cancelButton;
     private JButton acceptButton;
+    private JComboBox typeCombo;
+    private String loggedUsername;
 
     public JPanel getAddUserPanel() {
         return addUserPanel;
     }
 
-    public AddUser(final JPanel panel) {
+    public AddUser(final JPanel panel, String name) {
+
+        loggedUsername = name;
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,6 +44,22 @@ public class AddUser {
                 addUser();
             }
         });
+
+        if(isLibrian(loggedUsername))
+        {
+            typeCombo.removeAllItems();
+            typeCombo.addItem("UT01");
+            typeCombo.addItem("UT02");
+        }
+
+        if(isAdmin(loggedUsername))
+        {
+            typeCombo.removeAllItems();
+            typeCombo.addItem("UT01");
+            typeCombo.addItem("UT02");
+            typeCombo.addItem("UT03");
+            typeCombo.addItem("UT04");
+        }
     }
 
     public void checkIfEmpty(){
@@ -66,7 +87,6 @@ public class AddUser {
                 || inputPassword.getText().equals("")
                 || inputDob.getText().equals("")
                 || inputPin.getText().equals("")
-                || inputType.getText().equals("")
         )
         {
             fail.setLocationRelativeTo(addUserPanel);
@@ -94,6 +114,77 @@ public class AddUser {
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
 
+            if (inputID.getText().equals(""))
+            {
+                System.out.println("Do not insert ID");
+            }
+            else
+            {
+                System.out.println("Do insert ID");
+            }
+
+            if (inputName.getText().equals(""))
+            {
+                System.out.println("Do not insert Name");
+            }
+            else
+            {
+                System.out.println("Do insert Name");
+            }
+
+            if (inputGender.getText().equals(""))
+            {
+                System.out.println("Do not insert Gender");
+            }
+            else
+            {
+                System.out.println("Do insert Gender");
+            }
+
+            if (inputEmail.getText().equals(""))
+            {
+                System.out.println("Do not insert Email");
+            }
+            else
+            {
+                System.out.println("Do insert Email");
+            }
+
+            if (inputContact.getText().equals(""))
+            {
+                System.out.println("Do not insert Contact");
+            }
+            else
+            {
+                System.out.println("Do insert Contact");
+            }
+
+            if (inputPassword.getText().equals(""))
+            {
+                System.out.println("Do not insert Password");
+            }
+            else
+            {
+                System.out.println("Do insert Password");
+            }
+
+            if (inputDob.getText().equals(""))
+            {
+                System.out.println("Do not insert DOB");
+            }
+            else
+            {
+                System.out.println("Do insert Dob");
+            }
+            if (inputPin.getText().equals(""))
+            {
+                System.out.println("Do not insert Pin");
+            }
+            else
+            {
+                System.out.println("Do insert Pin");
+            }
+
             String defaultPageNo = "0";
             PreparedStatement insertUser = null;
             String updateString = "INSERT INTO member " +
@@ -108,7 +199,7 @@ public class AddUser {
                     inputDob.getText() + "', '" +
                     inputPin.getText() + "', '" +
                     defaultPageNo + "', '" +
-                    inputType.getText() + "')";
+                    typeCombo.getSelectedItem() + "')";
             insertUser = conn.prepareStatement(updateString);
             insertUser.executeUpdate();
             JOptionPane.showMessageDialog(null,
@@ -151,5 +242,87 @@ public class AddUser {
                 System.out.println("Connection success!");
             }
         }
+    }
+
+    public Boolean isLibrian(String loggedUsername) {
+        String input;
+        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+        String url = "jdbc:db2:testlib";
+        Connection conn = null;
+
+        try {
+            Class.forName(jdbcClassName);
+            conn = DriverManager.getConnection(url);
+            System.out.println("Creating statement...");
+            Statement st = conn.createStatement();
+            // Extract records in ascending order by first name.
+            System.out.println("Fetching records in ascending order...");
+            String sql = ("SELECT UT_ROLE from member, usertype where member.MB_TYPE_ID = usertype.UT_ID and MB_NAME = '" + loggedUsername + "'");
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                input = rs.getString(1);
+                if (input.equals("librarian"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (conn != null) {
+                System.out.println("Connection success!");
+            }
+        }
+        return false;
+    }
+
+    public Boolean isAdmin(String loggedUsername) {
+        String input;
+        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+        String url = "jdbc:db2:testlib";
+        Connection conn = null;
+
+        try {
+            Class.forName(jdbcClassName);
+            conn = DriverManager.getConnection(url);
+            System.out.println("Creating statement...");
+            Statement st = conn.createStatement();
+            // Extract records in ascending order by first name.
+            System.out.println("Fetching records in ascending order...");
+            String sql = ("SELECT UT_ROLE from member, usertype where member.MB_TYPE_ID = usertype.UT_ID and MB_NAME = '" + loggedUsername + "'");
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                input = rs.getString(1);
+                if (input.equals("administrative staff"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (conn != null) {
+                System.out.println("Connection success!");
+            }
+        }
+        return false;
     }
 }
