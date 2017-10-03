@@ -125,12 +125,14 @@ public class main {
                 ArrayList<String> passwords = new ArrayList<String>();
 
                 String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-                String url = "jdbc:db2:testlib";
+                String url = "jdbc:db2://localhost:50001/testlib";
+                String user = "User";
+                String password = "ting970926";
                 Connection conn = null;
 
                 try {
                     Class.forName(jdbcClassName);
-                    conn = DriverManager.getConnection(url);
+                    conn = DriverManager.getConnection(url,user,password);
 
                     System.out.println("DEBUG: Creating statement.");
                     Statement st = conn.createStatement();
@@ -161,7 +163,7 @@ public class main {
                             try
                             {
                                 Class.forName(jdbcClassName);
-                                conn = DriverManager.getConnection(url);
+                                conn = DriverManager.getConnection(url,user,password);
 
                                 System.out.println("Creating statement...");
                                 st = conn.createStatement();
@@ -199,7 +201,7 @@ public class main {
                                 try
                                 {
                                     Class.forName(jdbcClassName);
-                                    conn = DriverManager.getConnection(url);
+                                    conn = DriverManager.getConnection(url,user,password);
 
                                     System.out.println("Creating statement...");
                                     st = conn.createStatement();
@@ -244,9 +246,10 @@ public class main {
                                 RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel, materialMainPage.getMaterialTable());
                                 AddUser addUserPage = new AddUser(mainPanel, inputUsername.getText());
                                 Search searchPage = new Search(mainPanel);
-                                EditMaterial editMaterialPage = new EditMaterial(mainPanel);
+                                EditMaterial editMaterialPage = new EditMaterial(mainPanel, materialMainPage.getMaterialTable());
                                 RemoveUser removeUserPage = new RemoveUser(mainPanel, inputUsername.getText());
                                 ViewTransaction viewTransactionPage = new ViewTransaction(mainPanel);
+                                BorrowMaterial borrowMaterialPage = new BorrowMaterial(inputUsername.getText(),mainPanel);
 
                                 JPanel mainPageCard = mainPage.getMainPage();
                                 JPanel profileCard = profilePage.getProfilePanel();
@@ -260,6 +263,7 @@ public class main {
                                 JPanel editMaterialCard = editMaterialPage.getEditMaterial();
                                 JPanel removeUserCard = removeUserPage.getRemoveUserPanel();
                                 JPanel viewTransactionCard = viewTransactionPage.getViewTransactionPanel();
+                                JPanel borrowMaterialCard = borrowMaterialPage.getBorrowMaterial();
 
                                 mainPanel.add(mainPageCard, "main");
                                 mainPanel.add(profileCard, "profile");
@@ -275,6 +279,7 @@ public class main {
                                 mainPanel.add(editMaterialCard, "edit material");
                                 mainPanel.add(removeUserCard, "remove user");
                                 mainPanel.add(viewTransactionCard, "view transaction");
+                                mainPanel.add(borrowMaterialCard, "borrow material");
 
                                 window.add(mainPanel);
                                 window.setSize(1024, 640);

@@ -60,13 +60,15 @@ public class ConfirmRemoveUser extends JDialog{
 
     public void removeMaterial(){
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try
         {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
 
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();

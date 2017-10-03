@@ -12,6 +12,7 @@ public class MainPage {
     private JButton searchButton;
     private JButton addUserButton;
     private JButton removeUserButton;
+    private JButton borrowMaterialButton;
     private JButton viewTransactionButton;
 
     public MainPage(String name, final JPanel panel) {
@@ -20,12 +21,14 @@ public class MainPage {
             libraryMaterialsButton.setEnabled(true);
             addUserButton.setEnabled(true);
             removeUserButton.setEnabled(true);
+            borrowMaterialButton.setEnabled(true);
             viewTransactionButton.setEnabled(true);
         }
         else{
             libraryMaterialsButton.setEnabled(false);
             addUserButton.setEnabled(false);
             removeUserButton.setEnabled(false);
+            borrowMaterialButton.setEnabled(false);
             viewTransactionButton.setEnabled(false);
         }
         profileButton.addActionListener(new ActionListener() {
@@ -63,6 +66,13 @@ public class MainPage {
                 cardLayout.show(panel, "remove user");
             }
         });
+        borrowMaterialButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) panel.getLayout();
+                cardLayout.show(panel, "borrow material");
+            }
+        });
         viewTransactionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,12 +89,14 @@ public class MainPage {
     public Boolean isLibrian(String loggedUsername) {
         String input;
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.
@@ -120,12 +132,14 @@ public class MainPage {
     public Boolean isAdmin(String loggedUsername) {
         String input;
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.

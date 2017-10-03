@@ -87,13 +87,15 @@ public class Profile {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-                String url = "jdbc:db2:testlib";
+                String url = "jdbc:db2://localhost:50001/testlib";
+                String user = "User";
+                String password = "ting970926";
                 Connection conn = null;
 
                 try
                 {
                     Class.forName(jdbcClassName);
-                    conn = DriverManager.getConnection(url);
+                    conn = DriverManager.getConnection(url,user,password);
 
                     System.out.println("Creating statement...");
                     Statement st = conn.createStatement();
@@ -129,13 +131,15 @@ public class Profile {
     public void initUserData()
     {
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try
         {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             Statement st = conn.createStatement();
 
             System.out.println("Fetching User Records From Member Table");
@@ -197,12 +201,14 @@ public class Profile {
     public void updateUserTable(JTable userTable){
         Vector<Vector<String>> data = new Vector<Vector<String>>(11);
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
         int counter = 0;
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.
@@ -217,7 +223,8 @@ public class Profile {
                     " WHERE ISSUE.IS_MB_ID = MEMBER.MB_ID" +
                     " AND ISSUE.IS_MC_ID = MATERIAL_COPY.MC_ID" +
                     " AND MATERIAL.MT_ID = MATERIAL_COPY.MC_MT_ID" +
-                    " AND MEMBER.MB_NAME = " + loggedUsername);
+                    " AND MEMBER.MB_NAME = '" + loggedUsername + "'" +
+                    "order by ISSUE.IS_ISSUE_DATE desc");
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -229,9 +236,6 @@ public class Profile {
                 rowVector.add(rs.getString(4));
                 rowVector.add(rs.getString(5));
                 rowVector.add(rs.getString(6));
-                rowVector.add(rs.getString(7));
-                rowVector.add(rs.getString(8));
-                rowVector.add(rs.getString(9));
                 counter++;
             }
         } catch (ClassNotFoundException e) {

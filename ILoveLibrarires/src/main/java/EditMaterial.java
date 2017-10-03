@@ -1,9 +1,12 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.lang.String;
+import java.util.Vector;
 
 public class EditMaterial {
     private JTextField inputTitle;
@@ -11,7 +14,7 @@ public class EditMaterial {
     private JTextField inputPublisher;
     private JTextField inputDate;
     private JTextField inputEdition;
-    //private JTextField inputShelf;
+    private JTextField inputShelf;
     private JTextField inputPrice;
     private JTextField inputType;
     private JButton cancelButton;
@@ -21,11 +24,12 @@ public class EditMaterial {
     private JButton verifyButton;
     private JComboBox shelfCombo;
 
-    public EditMaterial(final JPanel panel) {
+    public EditMaterial(final JPanel panel, final JTable table) {
 
         verifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                updateTable(table);
                 verifymaterial();
 
                 //panel.revalidate();
@@ -37,15 +41,7 @@ public class EditMaterial {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inputMaterialID.setText("");
-                inputTitle.setText("");
-                inputISBN.setText("");
-                inputPublisher.setText("");
-                inputDate.setText("");
-                inputEdition.setText("");
-                shelfCombo.setSelectedIndex(0);
-                inputPrice.setText("");
-                inputType.setText("");
+                clearJTextField();
                 panel.revalidate();
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "material main");
@@ -61,16 +57,35 @@ public class EditMaterial {
                 else {
                     //System.out.println(theMaterial);
                     editMaterial1();
+                    updateTable(table);
                     MessageDialog success = new MessageDialog();
                     success.setLocationRelativeTo(editMaterial);
                     success.setMessage1("Success");
                     success.setMessage2("Info Successfully Updated");
                     success.pack();
                     success.show();
+                    CardLayout cardLayout = (CardLayout) panel.getLayout();
+                    cardLayout.show(panel, "material main");
+                    clearJTextField();
+                    panel.revalidate();
+
                 }
             }
         });
     }
+
+    public void clearJTextField(){
+        inputMaterialID.setText("");
+        inputTitle.setText("");
+        inputISBN.setText("");
+        inputPublisher.setText("");
+        inputDate.setText("");
+        inputEdition.setText("");
+        shelfCombo.setSelectedIndex(0);
+        inputPrice.setText("");
+        inputType.setText("");
+    }
+
     public JPanel getEditMaterial() {
         return editMaterial;
     }
@@ -86,6 +101,7 @@ public class EditMaterial {
         }
         return false;
     }
+
     public boolean checkIfEmpty(){
         MessageDialog fail = new MessageDialog();
         if (inputTitle.getText().equals("") && inputISBN.getText().equals("")
@@ -110,20 +126,17 @@ public class EditMaterial {
                 toDate = "fe",  toShelf ="",
                  toType = "fe", toEdition= "fe" , toPrice = "fe";
 
-
-        String mahtext = "fe", mahtext2 = "fe", mahtext3 = "fe" ,
-                mahtext4 = "fe", mahtext6 = "fe",
-                 mahtext8 = "fe", mahtext5 = "fe" , mahtext7 = "fe";
-
         String material = inputMaterialID.getText();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try
         {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
 
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
@@ -135,108 +148,17 @@ public class EditMaterial {
 
             while(rs.next())
             {
-                mahtext = rs.getString(1);
-                mahtext2 = rs.getString(2);
-                mahtext3 = rs.getString(3);
-                mahtext4 = rs.getString(4);
-                mahtext5 = rs.getString(5);
-                mahtext6 = rs.getString(6);
-                mahtext7 = rs.getString(7);
-                mahtext8 = rs.getString(8);
-            }
-
-
-
-            System.out.println( "Title: " + mahtext + " ISBN: " +mahtext2 + " Publisher: "+ mahtext3 +
-                                "Publish Date: " + mahtext4 + "Edition: " + mahtext5 + "SHELF: " + mahtext6 +
-                                        "PRICE: " + mahtext7 + "Type: " + mahtext8 );
-
-            if (inputTitle.getText().equals(""))
-            {
-                toTitle = mahtext;
-                System.out.println("Do not update Title");
-            }
-            else
-            {
-                toTitle = inputTitle.getText();
-                System.out.println("Do update Title");
-            }
-
-            if (inputISBN.getText().equals(""))
-            {
-                toISBN = mahtext2;
-                System.out.println("Do not update Email");
-            }
-            else
-            {
-                toISBN = inputISBN.getText();
-                System.out.println("Do update Email");
-
-            }
-
-            if (inputPublisher.getText().equals(""))
-            {
-                toPublisher = mahtext3;
-                System.out.println("Do not update ContactNo");
-            }
-            else
-            {
-                toPublisher = inputPublisher.getText();
-                System.out.println("Do update Contact");
-
-            }
-
-            if (inputDate.getText().equals(""))
-            {
-                toDate = mahtext4;
-                System.out.println("Do not update ContactNo");
-            }
-            else
-            {
-                toDate = inputDate.getText();
-                System.out.println("Do update Contact");
-
-            }
-
-            if (inputEdition.getText().equals(""))
-            {
-                toEdition = mahtext5;
-                System.out.println("Do not update ContactNo");
-            }
-            else
-            {
-                toEdition = inputEdition.getText();
-                System.out.println("Do update Contact");
-
+                toTitle = rs.getString(1);
+                toISBN = rs.getString(2);
+                toPublisher = rs.getString(3);
+                toDate = rs.getString(4);
+                toEdition = rs.getString(5);
+                toShelf = rs.getString(6);
+                toPrice = rs.getString(7);
+                toType = rs.getString(8);
             }
 
             toShelf = shelfCombo.getSelectedItem().toString();
-
-
-
-            if (inputPrice.getText().equals(""))
-            {
-                toPrice = mahtext7;
-                System.out.println("Do not update ContactNo");
-            }
-            else
-            {
-                toPrice = inputPrice.getText();
-                System.out.println("Do update Contact");
-
-            }
-
-            if (inputType.getText().equals(""))
-            {
-                toType = mahtext8;
-                System.out.println("Do not update ContactNo");
-            }
-            else
-            {
-                toType = inputType.getText();
-                System.out.println("Do update Contact");
-
-            }
 
             PreparedStatement updatePass = null;
             String updateString = "UPDATE MATERIAL SET MT_TITLE = ?, MT_ISBN = ?, MT_PUBLISHER = ?, MT_PUBLISH_DATE = ?," +
@@ -245,15 +167,15 @@ public class EditMaterial {
                     "Publish Date: " + toDate + "Edition: " + toEdition + "SHELF: " + toShelf +
                             "PRICE: " + toPrice + "Type: " + toType );
             updatePass = conn.prepareStatement(updateString);
-            updatePass.setString(1, toTitle);
-            updatePass.setString(2, toISBN);
+            updatePass.setString(1, inputTitle.getText());
+            updatePass.setString(2, inputISBN.getText());
 //            updatePass.setInt(3, Integer.parseInt(toContact));
-            updatePass.setString(3, toPublisher);
-            updatePass.setString(4, toDate);
-            updatePass.setString(5, toEdition);
+            updatePass.setString(3, inputPublisher.getText());
+            updatePass.setString(4, inputDate.getText());
+            updatePass.setString(5, inputEdition.getText());
             updatePass.setString(6, toShelf);
-            updatePass.setString(7, toPrice);
-            updatePass.setString(8, toType);
+            updatePass.setString(7, inputPrice.getText());
+            updatePass.setString(8, inputType.getText());
             updatePass.setString(9, material);
             updatePass.executeUpdate();
         }
@@ -264,13 +186,11 @@ public class EditMaterial {
         catch(SQLException e)
         {
             e.printStackTrace();
-
         }
         finally
         {
             if(conn != null)
             {
-
                 System.out.println("Connection success!");
             }
         }
@@ -278,18 +198,20 @@ public class EditMaterial {
     }
 
     public void verifymaterial(){
-        String mahtext = "", mahtext2 = "", mahtext3 = "" ,
-                mahtext4 = "", mahtext6 = "",
-                mahtext8 = "", mahtext5 = "" , mahtext7 = "";
+        String title = "", ISBN = "", publisher = "" ,
+                bookDate = "", shelf = "",
+                type = "", edition = "" , price = "";
 
         String material = inputMaterialID.getText();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
 
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
@@ -300,25 +222,24 @@ public class EditMaterial {
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                mahtext = rs.getString(1);
-                mahtext2 = rs.getString(2);
-                mahtext3 = rs.getString(3);
-                mahtext4 = rs.getString(4);
-                mahtext5 = rs.getString(5);
-                mahtext6 = rs.getString(6);
-                mahtext7 = rs.getString(7);
-                mahtext8 = rs.getString(8);
+                title = rs.getString(1);
+                ISBN = rs.getString(2);
+                publisher = rs.getString(3);
+                bookDate = rs.getString(4);
+                edition = rs.getString(5);
+                shelf = rs.getString(6);
+                price = rs.getString(7);
+                type = rs.getString(8);
             }
 
-
-            inputTitle.setText(mahtext);
-            inputISBN.setText(mahtext2);
-            inputPublisher.setText(mahtext3);
-            inputDate.setText(mahtext4);
-            inputEdition.setText(mahtext5);
-            shelfCombo.setSelectedItem(mahtext6);
-            inputPrice.setText(mahtext7);
-            inputType.setText(mahtext8);
+            inputTitle.setText(title);
+            inputISBN.setText(ISBN);
+            inputPublisher.setText(publisher);
+            inputDate.setText(bookDate);
+            inputEdition.setText(edition);
+            shelfCombo.setSelectedItem(shelf);
+            inputPrice.setText(price);
+            inputType.setText(type);
         }
         catch(ClassNotFoundException e)
         {
@@ -327,17 +248,88 @@ public class EditMaterial {
         catch(SQLException e)
         {
             e.printStackTrace();
-
         }
         finally
         {
             if(conn != null)
             {
-
                 System.out.println("Connection success!");
             }
         }
     }
 
+    public void updateTable(JTable materialTable){
+        Vector<Vector<String>> data = new Vector<Vector<String>>(10);
+        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
+        Connection conn = null;
+        int counter = 0;
+        try {
+            Class.forName(jdbcClassName);
+            conn = DriverManager.getConnection(url,user,password);
+            System.out.println("Creating statement...");
+            Statement st = conn.createStatement();
+            // Extract records in ascending order by first name.
+            System.out.println("Fetching records in ascending order...");
+            String sql = ("SELECT MT_ID, " +
+                    "MT_TITLE, " +
+                    "MT_ISBN, " +
+                    "MT_PUBLISHER, " +
+                    "MT_PUBLISH_DATE, " +
+                    "MT_EDITION, " +
+                    "MT_SH_ID, " +
+                    "MT_PRICE, " +
+                    "MT_TYPE " +
+                    "from material");
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                data.add(counter,new Vector<String>(10));
+                Vector<String> rowVector = data.get(counter);
+                rowVector.add(rs.getString(1));
+                rowVector.add(rs.getString(2));
+                rowVector.add(rs.getString(3));
+                rowVector.add(rs.getString(4));
+                rowVector.add(rs.getString(5));
+                rowVector.add(rs.getString(6));
+                rowVector.add(rs.getString(7));
+                rowVector.add(rs.getString(8));
+                rowVector.add(rs.getString(9));
+                counter++;
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (conn != null) {
+                System.out.println("Connection success!");
+            }
+            try{
+                conn.close();
+            }catch (SQLException w){}
+
+        }
+
+        Vector<String> columnNames = new Vector<String>(10);
+        columnNames.add("ID");
+        columnNames.add("Title");
+        columnNames.add("ISBN");
+        columnNames.add("Publisher");
+        columnNames.add("Publish Date");
+        columnNames.add("Edition");
+        columnNames.add("Shelf");
+        columnNames.add("Price");
+        columnNames.add("Type");
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+        materialTable.setModel(model);
+        TableColumn column = materialTable.getColumnModel().getColumn(1);
+        column.setPreferredWidth(500);
+    }
 
 }

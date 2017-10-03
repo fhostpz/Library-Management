@@ -71,13 +71,15 @@ public class EditProfile{
         //Temporary String Varaible to hold information obtain from database query
         String tempText = "fe", tempText2 = "fe", tempText3 = "fe";
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try
         {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
 
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
@@ -162,7 +164,9 @@ public class EditProfile{
     public void updateProfile(Profile profile)
     {
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         System.out.println(loggedUser);
@@ -170,7 +174,7 @@ public class EditProfile{
         try
         {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             Statement st = conn.createStatement();
 
             String sql = ("SELECT MB_ID," +

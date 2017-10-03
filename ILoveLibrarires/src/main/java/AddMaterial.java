@@ -29,9 +29,10 @@ public class AddMaterial {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                clearJTextField();
+                panel.revalidate();
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "material main");
-
             }
         });
         acceptButton.addActionListener(new ActionListener() {
@@ -81,15 +82,28 @@ public class AddMaterial {
 
     }
 
+    public void clearJTextField(){
+        inputID.setText("");
+        inputTitle.setText("");
+        inputISBN.setText("");
+        inputPublisher.setText("");
+        inputEdition.setText("");
+        shelfCombo.setSelectedIndex(0);
+        inputPrice.setText("");
+        inputType.setText("");
+    }
+
     public void updateTable(JTable materialTable){
         Vector<Vector<String>> data = new Vector<Vector<String>>(10);
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
         int counter = 0;
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.
@@ -156,13 +170,15 @@ public class AddMaterial {
     public void addMaterial(JTable table){
         MessageDialog fail = new MessageDialog();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
 
         try
         {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
 
             PreparedStatement insertMaterial = null;
             String updateString = "INSERT INTO material " +

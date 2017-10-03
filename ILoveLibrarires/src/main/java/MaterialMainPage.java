@@ -34,13 +34,15 @@ public class MaterialMainPage {
         Vector<Vector<String>> data = new Vector<Vector<String>>(10);
         String input;
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
         int counter = 0;
         //Insert Data into Table
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.
@@ -146,13 +148,15 @@ public class MaterialMainPage {
         Vector<Vector<String>> data = new Vector<Vector<String>>(10);
         String input;
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
-        String url = "jdbc:db2:testlib";
+        String url = "jdbc:db2://localhost:50001/testlib";
+        String user = "User";
+        String password = "ting970926";
         Connection conn = null;
         int counter = 0;
 
         try {
             Class.forName(jdbcClassName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url,user,password);
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
             // Extract records in ascending order by first name.
