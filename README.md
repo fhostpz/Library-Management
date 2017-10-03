@@ -1,9 +1,12 @@
 # Library-Management
 
+Build 03/10-1121
+- Added error checks for remove user.
+- ConfirmRemovedUser functions added to ConfirmRemove class.
+
 Build 03/10-1003
 - Added remove user for librarian & admins. [Miguel]
 - Added edit material for librarian & admins. [Weijun]
-
 - Reset Password function working.
 
 Build 27/09-1206
