@@ -12,6 +12,8 @@ public class MainPage {
     private JButton searchButton;
     private JButton addUserButton;
     private JButton removeUserButton;
+    private JButton borrowMaterialButton;
+    private JButton viewTransactionButton;
 
     public MainPage(String name, final JPanel panel) {
         loggedUsername = name;
@@ -19,11 +21,15 @@ public class MainPage {
             libraryMaterialsButton.setEnabled(true);
             addUserButton.setEnabled(true);
             removeUserButton.setEnabled(true);
+            borrowMaterialButton.setEnabled(true);
+            viewTransactionButton.setEnabled(true);
         }
         else{
             libraryMaterialsButton.setEnabled(false);
             addUserButton.setEnabled(false);
             removeUserButton.setEnabled(false);
+            borrowMaterialButton.setEnabled(false);
+            viewTransactionButton.setEnabled(false);
         }
         profileButton.addActionListener(new ActionListener() {
             @Override
@@ -58,6 +64,20 @@ public class MainPage {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "remove user");
+            }
+        });
+        borrowMaterialButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) panel.getLayout();
+                cardLayout.show(panel, "borrow material");
+            }
+        });
+        viewTransactionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) panel.getLayout();
+                cardLayout.show(panel, "view transaction");
             }
         });
     }

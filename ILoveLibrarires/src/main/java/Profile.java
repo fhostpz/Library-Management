@@ -1,8 +1,11 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Vector;
 
 public class Profile {
     private String loggedUsername;
@@ -17,6 +20,7 @@ public class Profile {
     private JLabel email_data;
     private JLabel contactNo_data;
     private JLabel gender_data;
+    private JTable userTransactionTable;
 
     public JLabel getUsername_data() {
         return username_data;
@@ -57,6 +61,7 @@ public class Profile {
         loggedUsername = input;
         //Initialize User Data
         initUserData();
+        updateUserTable(userTransactionTable);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,6 +86,38 @@ public class Profile {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+                String url = "jdbc:db2:testlib";
+                Connection conn = null;
+
+                try
+                {
+                    Class.forName(jdbcClassName);
+                    conn = DriverManager.getConnection(url);
+
+                    System.out.println("Creating statement...");
+                    Statement st = conn.createStatement();
+
+                    // Extract records in ascending order by first name.
+                    System.out.println("Fetching records in ascending order...");
+                    String sql = ("UPDATE MEMBER SET MB_AVAILABILITY = 'Offline' WHERE MB_NAME = '" + loggedUsername + "'");
+                    st.executeUpdate(sql);
+                }
+                catch(ClassNotFoundException event)
+                {
+                    event.printStackTrace();
+                }
+                catch(SQLException event)
+                {
+                    event.printStackTrace();
+                }
+                finally
+                {
+                    if(conn != null)
+                    {
+                        System.out.println("Connection success!");
+                    }
+                }
                 //Dispose Current Frame
                 die.dispose();
                 //Call main to Display Login
@@ -155,6 +192,74 @@ public class Profile {
             }
         }
 
+    }
+
+    public void updateUserTable(JTable userTable){
+        Vector<Vector<String>> data = new Vector<Vector<String>>(11);
+        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+        String url = "jdbc:db2:testlib";
+        Connection conn = null;
+        int counter = 0;
+        try {
+            Class.forName(jdbcClassName);
+            conn = DriverManager.getConnection(url);
+            System.out.println("Creating statement...");
+            Statement st = conn.createStatement();
+            // Extract records in ascending order by first name.
+            System.out.println("Fetching records in ascending order...");
+            String sql = ("SELECT IS_MC_ID, " +
+                    "MT_TITLE, " +
+                    "IS_ISSUE_DATE, " +
+                    "IS_DUE_DATE, " +
+                    "IS_RETURN_DATE, " +
+                    "IS_FINE " +
+                    "from issue, member, material, material_copy" +
+                    " WHERE ISSUE.IS_MB_ID = MEMBER.MB_ID" +
+                    " AND ISSUE.IS_MC_ID = MATERIAL_COPY.MC_ID" +
+                    " AND MATERIAL.MT_ID = MATERIAL_COPY.MC_MT_ID" +
+                    " AND MEMBER.MB_NAME = '" + loggedUsername + "'" +
+                    "order by ISSUE.IS_ISSUE_DATE desc");
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                data.add(counter,new Vector<String>(10));
+                Vector<String> rowVector = data.get(counter);
+                rowVector.add(rs.getString(1));
+                rowVector.add(rs.getString(2));
+                rowVector.add(rs.getString(3));
+                rowVector.add(rs.getString(4));
+                rowVector.add(rs.getString(5));
+                rowVector.add(rs.getString(6));
+                counter++;
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (conn != null) {
+                System.out.println("Connection success!");
+            }
+            try{
+                conn.close();
+            }catch (SQLException w){}
+
+        }
+
+        Vector<String> columnNames = new Vector<String>(10);
+        columnNames.add("Material Copy ID");
+        columnNames.add("Material Title");
+        columnNames.add("Issue Date");
+        columnNames.add("Due Date");
+        columnNames.add("Return Date");
+        columnNames.add("Fine");
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+        userTable.setModel(model);
+        TableColumn column = userTable.getColumnModel().getColumn(1);
+        column.setPreferredWidth(500);
     }
 
 }

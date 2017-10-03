@@ -203,6 +203,7 @@ public class EditMaterial {
         String material = inputMaterialID.getText();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
         String url = "jdbc:db2:testlib";
+
         Connection conn = null;
 
         try {

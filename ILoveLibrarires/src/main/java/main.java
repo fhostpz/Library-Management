@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -118,6 +119,7 @@ public class main {
                 String memberName;
                 String memberPIN;
                 Boolean loginSuccess = false;
+                String available = "";
 
                 ArrayList<String> usernames = new ArrayList<String>();
                 ArrayList<String> passwords = new ArrayList<String>();
@@ -155,62 +157,139 @@ public class main {
                         String typedPassword = inputPassword.getText();
 
                         if ((typedUsername.equals(usernames.get(i))) && (typedPassword.equals(passwords.get(i)))) {
+
+                            try
+                            {
+                                Class.forName(jdbcClassName);
+                                conn = DriverManager.getConnection(url);
+
+                                System.out.println("Creating statement...");
+                                st = conn.createStatement();
+
+                                // Extract records in ascending order by first name.
+                                System.out.println("Fetching records in ascending order...");
+                                String sql = ("SELECT MB_AVAILABILITY from member WHERE MB_NAME = '" + typedUsername + "'");
+                                rs = st.executeQuery(sql);
+
+                                while(rs.next())
+                                {
+                                    available = rs.getString(1);
+                                }
+                            }
+                            catch(ClassNotFoundException event)
+                            {
+                                event.printStackTrace();
+                            }
+                            catch(SQLException event)
+                            {
+                                event.printStackTrace();
+                            }
+                            finally
+                            {
+                                if(conn != null)
+                                {
+                                    System.out.println("Connection success!");
+                                }
+                            }
+
                             //Once user credentials are validated, terminate the login windows.
                             //User are granted access.
-                            mainFrame.dispose();
+                            if(available.equals("Offline"))
+                            {
+                                try
+                                {
+                                    Class.forName(jdbcClassName);
+                                    conn = DriverManager.getConnection(url);
 
-                            JFrame window = new JFrame("ULMS v1.0");
-                            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                    System.out.println("Creating statement...");
+                                    st = conn.createStatement();
 
-                            //final CardLayout cardLayout = new CardLayout();
-                            final JPanel mainPanel = new JPanel();
+                                    // Extract records in ascending order by first name.
+                                    System.out.println("Fetching records in ascending order...");
+                                    String sql = ("UPDATE MEMBER SET MB_AVAILABILITY = 'Online' WHERE MB_NAME = '" + typedUsername + "'");
+                                    st.executeUpdate(sql);
+                                }
+                                catch(ClassNotFoundException event)
+                                {
+                                    event.printStackTrace();
+                                }
+                                catch(SQLException event)
+                                {
+                                    event.printStackTrace();
+                                }
+                                finally
+                                {
+                                    if(conn != null)
+                                    {
+                                        System.out.println("Connection success!");
+                                    }
+                                }
 
-                            mainPanel.setLayout(cardLayout);
+                                mainFrame.dispose();
 
-                            MainPage mainPage = new MainPage(inputUsername.getText(), mainPanel);
-                            Profile profilePage = new Profile(inputUsername.getText(), mainPanel, window);
-                            ChangePassword changePasswordPage = new ChangePassword(inputUsername.getText(), mainPanel);
-                            EditProfile editProfilePage = new EditProfile(inputUsername.getText(), mainPanel, profilePage);
-                            MaterialMainPage materialMainPage = new MaterialMainPage(mainPanel);
-                            AddMaterial addMaterialPage = new AddMaterial(mainPanel, materialMainPage.getMaterialTable());
-                            RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel, materialMainPage.getMaterialTable());
-                            AddUser addUserPage = new AddUser(mainPanel, inputUsername.getText());
-                            Search searchPage = new Search(mainPanel);
-                            EditMaterial editMaterialPage = new EditMaterial(mainPanel, materialMainPage.getMaterialTable());
-                            RemoveUser removeUserPage = new RemoveUser(mainPanel, inputUsername.getText());
+                                JFrame window = new JFrame("ULMS v1.0");
+                                window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                            JPanel mainPageCard = mainPage.getMainPage();
-                            JPanel profileCard = profilePage.getProfilePanel();
-                            JPanel changePasswordCard = changePasswordPage.getChangePassword();
-                            JPanel editProfileCard = editProfilePage.getEditProfile();
-                            JPanel materialMainPageCard = materialMainPage.getMaterialMainPagePanel();
-                            JPanel addMaterialPageCard = addMaterialPage.getAddMaterialPanel();
-                            JPanel removeMaterialPageCard = removeMaterialPage.getRemoveMaterialPanel();
-                            JPanel addUserPageCard = addUserPage.getAddUserPanel();
-                            JPanel searchPageCard = searchPage.getSearchPanel();
-                            JPanel editMaterialCard = editMaterialPage.getEditMaterial();
-                            JPanel removeUserCard = removeUserPage.getRemoveUserPanel();
+                                //final CardLayout cardLayout = new CardLayout();
+                                final JPanel mainPanel = new JPanel();
 
-                            mainPanel.add(mainPageCard, "main");
-                            mainPanel.add(profileCard, "profile");
-                            mainPanel.add(changePasswordCard, "changePassword");
-                            mainPanel.add(editProfileCard, "editProfile");
-                            mainPanel.add(forgotPasswordCard, "forgotPassword_1");
-                            mainPanel.add(forgotPassword_2Card, "forgotPassword_2");
-                            mainPanel.add(materialMainPageCard, "material main");
-                            mainPanel.add(addMaterialPageCard, "add material");
-                            mainPanel.add(removeMaterialPageCard, "remove material");
-                            mainPanel.add(addUserPageCard, "add user");
-                            mainPanel.add(searchPageCard, "search");
-                            mainPanel.add(editMaterialCard, "edit material");
-                            mainPanel.add(removeUserCard, "remove user");
+                                mainPanel.setLayout(cardLayout);
 
-                            window.add(mainPanel);
-                            window.setSize(1024, 640);
-                            window.setVisible(true);
-                            System.out.println("DEBUG: Homepage is now showing.");
-                            loginSuccess = true;
-                            break;
+                                MainPage mainPage = new MainPage(inputUsername.getText(), mainPanel);
+                                Profile profilePage = new Profile(inputUsername.getText(), mainPanel, window);
+                                ChangePassword changePasswordPage = new ChangePassword(inputUsername.getText(), mainPanel);
+                                EditProfile editProfilePage = new EditProfile(inputUsername.getText(), mainPanel, profilePage);
+                                MaterialMainPage materialMainPage = new MaterialMainPage(mainPanel);
+                                AddMaterial addMaterialPage = new AddMaterial(mainPanel, materialMainPage.getMaterialTable());
+                                RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel, materialMainPage.getMaterialTable());
+                                AddUser addUserPage = new AddUser(mainPanel, inputUsername.getText());
+                                Search searchPage = new Search(mainPanel);
+                                EditMaterial editMaterialPage = new EditMaterial(mainPanel, materialMainPage.getMaterialTable());
+                                RemoveUser removeUserPage = new RemoveUser(mainPanel, inputUsername.getText());
+                                ViewTransaction viewTransactionPage = new ViewTransaction(mainPanel);
+                                BorrowMaterial borrowMaterialPage = new BorrowMaterial(inputUsername.getText(),mainPanel);
+
+                                JPanel mainPageCard = mainPage.getMainPage();
+                                JPanel profileCard = profilePage.getProfilePanel();
+                                JPanel changePasswordCard = changePasswordPage.getChangePassword();
+                                JPanel editProfileCard = editProfilePage.getEditProfile();
+                                JPanel materialMainPageCard = materialMainPage.getMaterialMainPagePanel();
+                                JPanel addMaterialPageCard = addMaterialPage.getAddMaterialPanel();
+                                JPanel removeMaterialPageCard = removeMaterialPage.getRemoveMaterialPanel();
+                                JPanel addUserPageCard = addUserPage.getAddUserPanel();
+                                JPanel searchPageCard = searchPage.getSearchPanel();
+                                JPanel editMaterialCard = editMaterialPage.getEditMaterial();
+                                JPanel removeUserCard = removeUserPage.getRemoveUserPanel();
+                                JPanel viewTransactionCard = viewTransactionPage.getViewTransactionPanel();
+                                JPanel borrowMaterialCard = borrowMaterialPage.getBorrowMaterial();
+
+                                mainPanel.add(mainPageCard, "main");
+                                mainPanel.add(profileCard, "profile");
+                                mainPanel.add(changePasswordCard, "changePassword");
+                                mainPanel.add(editProfileCard, "editProfile");
+                                mainPanel.add(forgotPasswordCard, "forgotPassword_1");
+                                mainPanel.add(forgotPassword_2Card, "forgotPassword_2");
+                                mainPanel.add(materialMainPageCard, "material main");
+                                mainPanel.add(addMaterialPageCard, "add material");
+                                mainPanel.add(removeMaterialPageCard, "remove material");
+                                mainPanel.add(addUserPageCard, "add user");
+                                mainPanel.add(searchPageCard, "search");
+                                mainPanel.add(editMaterialCard, "edit material");
+                                mainPanel.add(removeUserCard, "remove user");
+                                mainPanel.add(viewTransactionCard, "view transaction");
+                                mainPanel.add(borrowMaterialCard, "borrow material");
+
+                                window.add(mainPanel);
+                                window.setSize(1024, 640);
+                                window.setVisible(true);
+                                System.out.println("DEBUG: Homepage is now showing.");
+                                loginSuccess = true;
+                                break;
+                            }
+                            else
+                            {
+                                throw new IllegalAccessException();
+                            }
                         }
                         else {
                             loginSuccess = false;
@@ -222,6 +301,10 @@ public class main {
                     w.printStackTrace();
                 } catch (SQLException w) {
                     w.printStackTrace();
+                }catch(IllegalAccessException w)
+                {
+                    JOptionPane.showMessageDialog(null, "User is already logged in");
+                    loginSuccess = true;
                 }
                 finally {
                     if (conn != null) {
@@ -238,6 +321,8 @@ public class main {
                     fail.pack();
                     fail.show();
                 }
+
+
             }
         });
     }

@@ -77,6 +77,7 @@ public class ChangePassword {
 
     public Boolean credentialsValid(){
         String mb_name, mb_password;
+        Boolean finalDecision = false;
         ArrayList<String> usernameArray = new ArrayList<String>();
         ArrayList<String> passwordArray =new ArrayList<String>();
         String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
@@ -112,12 +113,13 @@ public class ChangePassword {
                 if (text.equals(usernameArray.get(i)) && text1.equals(passwordArray.get(i)))
                 {
                     System.out.println("Password tally with database.");
-                    return true;
+                    finalDecision = true;
+                    break;
                 }
                 else
                 {
                     System.out.println("Password not tally with datatbase");
-                    return false;
+                    finalDecision = false;
                 }
             }
         }
@@ -138,7 +140,7 @@ public class ChangePassword {
                 System.out.println("Connection success!");
             }
         }
-        return false;
+        return finalDecision;
     }
 
     public void setNewPassword(){
