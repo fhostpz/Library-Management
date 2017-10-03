@@ -57,14 +57,14 @@ create table member
   mb_pin int not null, 
   mb_material_borrowed int not null, 
   mb_type_id char(4) not null, 
-  mb_availability varchar(7) check (mb_availability  in ('Offline','Online')) DEFAULT 'Offline',
+  mb_availability varchar(7) check (mb_availability  in ('Offline','Online')) DEFAULT 'Offline', /* new added, new attributes */
   primary key (mb_id),
   foreign key (mb_type_id) references usertype(ut_id)
 );
 
 create table issue
 (
-  is_id int not null GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1)
+  is_id int not null GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1), /* new changes, datatype to (int) and autoincrement */
   is_mc_id char(10) not null,
   is_mb_id char(10) not null,
   is_issue_date date not null,
