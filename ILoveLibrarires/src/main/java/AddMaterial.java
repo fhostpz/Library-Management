@@ -29,10 +29,9 @@ public class AddMaterial {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clearJTextField();
-                panel.revalidate();
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "material main");
+
             }
         });
         acceptButton.addActionListener(new ActionListener() {
@@ -80,17 +79,6 @@ public class AddMaterial {
         }
 
 
-    }
-
-    public void clearJTextField(){
-        inputID.setText("");
-        inputTitle.setText("");
-        inputISBN.setText("");
-        inputPublisher.setText("");
-        inputEdition.setText("");
-        shelfCombo.setSelectedIndex(0);
-        inputPrice.setText("");
-        inputType.setText("");
     }
 
     public void updateTable(JTable materialTable){

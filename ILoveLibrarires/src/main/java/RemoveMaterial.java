@@ -35,7 +35,6 @@ public class RemoveMaterial {
         acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 MessageDialog message = new MessageDialog();
                 String theMaterial = "";
                 String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
@@ -90,9 +89,8 @@ public class RemoveMaterial {
                     }
                 }
                 //Call a Dialog to confirm removal
-                ConfirmRemove remove = new ConfirmRemove(inputMaterialID);
-                remove.setDialogPurpose("remove material");
-                remove.setDataToDelete(theMaterial);
+                confirmRemove remove = new confirmRemove(inputMaterialID);
+                remove.setMaterial_name_data(theMaterial);
                 remove.pack();
                 remove.show();
                 //Update table in MaterMainPage Card

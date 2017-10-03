@@ -12,6 +12,7 @@ public class MainPage {
     private JButton searchButton;
     private JButton addUserButton;
     private JButton removeUserButton;
+    private JButton viewTransactionButton;
 
     public MainPage(String name, final JPanel panel) {
         loggedUsername = name;
@@ -19,11 +20,13 @@ public class MainPage {
             libraryMaterialsButton.setEnabled(true);
             addUserButton.setEnabled(true);
             removeUserButton.setEnabled(true);
+            viewTransactionButton.setEnabled(true);
         }
         else{
             libraryMaterialsButton.setEnabled(false);
             addUserButton.setEnabled(false);
             removeUserButton.setEnabled(false);
+            viewTransactionButton.setEnabled(false);
         }
         profileButton.addActionListener(new ActionListener() {
             @Override
@@ -58,6 +61,13 @@ public class MainPage {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) panel.getLayout();
                 cardLayout.show(panel, "remove user");
+            }
+        });
+        viewTransactionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) panel.getLayout();
+                cardLayout.show(panel, "view transaction");
             }
         });
     }

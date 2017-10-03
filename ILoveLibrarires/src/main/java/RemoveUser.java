@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class RemoveUser {
@@ -39,9 +38,6 @@ public class RemoveUser {
         acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Boolean IDValid = false;
-                ArrayList<String> usernames = new ArrayList<String>();
-                //Check if ID is Valid
                 MessageDialog message = new MessageDialog();
                 String theUser = "";
                 String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
@@ -54,17 +50,20 @@ public class RemoveUser {
                     conn = DriverManager.getConnection(url);
                     Statement st = conn.createStatement();
                     //Select Title from Material Table given the Material ID
-                    String sql = ("SELECT MB_ID FROM member");
+                    String sql = ("SELECT MB_TYPE_ID FROM member WHERE MB_ID = '" + inputUserID.getText()+ "'");
                     ResultSet rs = st.executeQuery(sql);
                     while(rs.next())
                     {
-                        usernames.add(rs.getString(1));
+                        userType = rs.getString(1);
                     }
                 }
-                catch(ClassNotFoundException w){
+                catch(ClassNotFoundException w)
+                {
                     w.printStackTrace();
+
                 }
-                catch(SQLException w){
+                catch(SQLException w)
+                {
                     w.printStackTrace();
                     message.setLocationRelativeTo(removeUserPanel);
                     message.setMessage1("Input Error");
@@ -85,128 +84,75 @@ public class RemoveUser {
                     message.pack();
                     message.show();
                 }
-                finally{
-                    if(conn != null){
+                finally
+                {
+                    if(conn != null)
+                    {
                         System.out.println("Connection success!");
                     }
                 }
 
-                for (int i = 0; i < usernames.size(); i++){
-                    if (usernames.get(i).equals(inputUserID.getText())){
-                        IDValid = true;
-                    } else {
-                        IDValid = false;
-                    }
+                if(isLibrian(loggedUsername) && (userType.equals("UT03") || userType.equals("UT04")))
+                {
+                    JOptionPane.showMessageDialog(null, "Requires higher authorization level to execute action");
                 }
-
-                //JTextField is empty
-                if (inputUserID.getText().equals("")){
-                    MessageDialog dialog = new MessageDialog();
-                    dialog.setMessage1("Error");
-                    dialog.setMessage2("No ID in text field.");
-                    dialog.setLocationRelativeTo(inputUserID);
-                    dialog.pack();
-                    dialog.show();
-                } else {
-                    if (IDValid.equals(true)) {
-                        try {
-                            Class.forName(jdbcClassName);
-                            conn = DriverManager.getConnection(url);
-                            Statement st = conn.createStatement();
-                            //Select Title from Material Table given the Material ID
-                            String sql = ("SELECT MB_TYPE_ID FROM member WHERE MB_ID = '" + inputUserID.getText() + "'");
-                            ResultSet rs = st.executeQuery(sql);
-                            while (rs.next()) {
-                                userType = rs.getString(1);
-                            }
-                        } catch (ClassNotFoundException w) {
-                            w.printStackTrace();
-
-                        } catch (SQLException w) {
-                            w.printStackTrace();
-                            message.setLocationRelativeTo(removeUserPanel);
-                            message.setMessage1("Input Error");
-                            switch (w.getErrorCode()) {
-                                case (-180):
-                                    message.setMessage1("SQL Error Code -180");
-                                    message.setMessage2("Data Format is incorrect (YYYY/MM/DD)");
-                                    break;
-                                case (-420):
-                                    message.setMessage1("SQL Error Code -420");
-                                    message.setMessage2("A string is entered, when an integer is required.");
-                                    break;
-                                default:
-                                    message.setMessage1("SQL Error Code " + w.getErrorCode());
-                                    message.setMessage2("SQL Error");
-                                    break;
-                            }
-                            message.pack();
-                            message.show();
-                        } finally {
-                            if (conn != null) {
-                                System.out.println("Connection success!");
-                            }
+                else
+                {
+                    try
+                    {
+                        Class.forName(jdbcClassName);
+                        conn = DriverManager.getConnection(url);
+                        Statement st = conn.createStatement();
+                        //Select Title from Material Table given the Material ID
+                        String sql = ("SELECT MB_NAME FROM member WHERE MB_ID = '" + inputUserID.getText()+ "'");
+                        ResultSet rs = st.executeQuery(sql);
+                        while(rs.next())
+                        {
+                            theUser = rs.getString(1);
                         }
-
-                        if (isLibrian(loggedUsername) && (userType.equals("UT03") || userType.equals("UT04"))) {
-                            JOptionPane.showMessageDialog(null, "Requires higher authorization level to execute action");
-                        } else {
-                            try {
-                                Class.forName(jdbcClassName);
-                                conn = DriverManager.getConnection(url);
-                                Statement st = conn.createStatement();
-                                //Select Title from Material Table given the Material ID
-                                String sql = ("SELECT MB_NAME FROM member WHERE MB_ID = '" + inputUserID.getText() + "'");
-                                ResultSet rs = st.executeQuery(sql);
-                                while (rs.next()) {
-                                    theUser = rs.getString(1);
-                                }
-                            } catch (ClassNotFoundException w) {
-                                w.printStackTrace();
-
-                            } catch (SQLException w) {
-                                w.printStackTrace();
-                                message.setLocationRelativeTo(removeUserPanel);
-                                message.setMessage1("Input Error");
-                                switch (w.getErrorCode()) {
-                                    case (-180):
-                                        message.setMessage1("SQL Error Code -180");
-                                        message.setMessage2("Data Format is incorrect (YYYY/MM/DD)");
-                                        break;
-                                    case (-420):
-                                        message.setMessage1("SQL Error Code -420");
-                                        message.setMessage2("A string is entered, when an integer is required.");
-                                        break;
-                                    default:
-                                        message.setMessage1("SQL Error Code " + w.getErrorCode());
-                                        message.setMessage2("SQL Error");
-                                        break;
-                                }
-                                message.pack();
-                                message.show();
-                            } finally {
-                                if (conn != null) {
-                                    System.out.println("Connection success!");
-                                }
-                            }
-                            //Call a Dialog to confirm removal
-                            ConfirmRemove remove = new ConfirmRemove(inputUserID);
-                            remove.setDialogPurpose("remove member");
-                            remove.setDataToDelete(theUser);
-                            remove.pack();
-                            remove.show();
-                            //Update table in MaterMainPage Card
-                            //Update table in RemoveMaterial Card
-                            updateUserTable(userTable);
-                        }
-                    } else {
-                        MessageDialog dialog = new MessageDialog();
-                        dialog.setMessage1("Error");
-                        dialog.setMessage2("Invalid ID in text field.");
-                        dialog.setLocationRelativeTo(inputUserID);
-                        dialog.pack();
-                        dialog.show();
                     }
+                    catch(ClassNotFoundException w)
+                    {
+                        w.printStackTrace();
+
+                    }
+                    catch(SQLException w)
+                    {
+                        w.printStackTrace();
+                        message.setLocationRelativeTo(removeUserPanel);
+                        message.setMessage1("Input Error");
+                        switch(w.getErrorCode()){
+                            case (-180):
+                                message.setMessage1("SQL Error Code -180");
+                                message.setMessage2("Data Format is incorrect (YYYY/MM/DD)");
+                                break;
+                            case (-420):
+                                message.setMessage1("SQL Error Code -420");
+                                message.setMessage2("A string is entered, when an integer is required.");
+                                break;
+                            default:
+                                message.setMessage1("SQL Error Code " + w.getErrorCode());
+                                message.setMessage2("SQL Error");
+                                break;
+                        }
+                        message.pack();
+                        message.show();
+                    }
+                    finally
+                    {
+                        if(conn != null)
+                        {
+                            System.out.println("Connection success!");
+                        }
+                    }
+                    //Call a Dialog to confirm removal
+                    ConfirmRemoveUser remove = new ConfirmRemoveUser(inputUserID);
+                    remove.setUserIdData(theUser);
+                    remove.pack();
+                    remove.show();
+                    //Update table in MaterMainPage Card
+                    //Update table in RemoveMaterial Card
+                    updateUserTable(userTable);
                 }
             }
         });

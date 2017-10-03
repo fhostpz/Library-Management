@@ -114,6 +114,77 @@ public class AddUser {
             System.out.println("Creating statement...");
             Statement st = conn.createStatement();
 
+            if (inputID.getText().equals(""))
+            {
+                System.out.println("Do not insert ID");
+            }
+            else
+            {
+                System.out.println("Do insert ID");
+            }
+
+            if (inputName.getText().equals(""))
+            {
+                System.out.println("Do not insert Name");
+            }
+            else
+            {
+                System.out.println("Do insert Name");
+            }
+
+            if (inputGender.getText().equals(""))
+            {
+                System.out.println("Do not insert Gender");
+            }
+            else
+            {
+                System.out.println("Do insert Gender");
+            }
+
+            if (inputEmail.getText().equals(""))
+            {
+                System.out.println("Do not insert Email");
+            }
+            else
+            {
+                System.out.println("Do insert Email");
+            }
+
+            if (inputContact.getText().equals(""))
+            {
+                System.out.println("Do not insert Contact");
+            }
+            else
+            {
+                System.out.println("Do insert Contact");
+            }
+
+            if (inputPassword.getText().equals(""))
+            {
+                System.out.println("Do not insert Password");
+            }
+            else
+            {
+                System.out.println("Do insert Password");
+            }
+
+            if (inputDob.getText().equals(""))
+            {
+                System.out.println("Do not insert DOB");
+            }
+            else
+            {
+                System.out.println("Do insert Dob");
+            }
+            if (inputPin.getText().equals(""))
+            {
+                System.out.println("Do not insert Pin");
+            }
+            else
+            {
+                System.out.println("Do insert Pin");
+            }
+
             String defaultPageNo = "0";
             PreparedStatement insertUser = null;
             String updateString = "INSERT INTO member " +
