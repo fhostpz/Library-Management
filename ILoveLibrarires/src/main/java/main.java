@@ -174,8 +174,10 @@ public class main {
                             MaterialMainPage materialMainPage = new MaterialMainPage(mainPanel);
                             AddMaterial addMaterialPage = new AddMaterial(mainPanel, materialMainPage.getMaterialTable());
                             RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel, materialMainPage.getMaterialTable());
-                            AddUser addUserPage = new AddUser(mainPanel);
+                            AddUser addUserPage = new AddUser(mainPanel, inputUsername.getText());
                             Search searchPage = new Search(mainPanel);
+                            EditMaterial editMaterialPage = new EditMaterial(mainPanel);
+                            RemoveUser removeUserPage = new RemoveUser(mainPanel, inputUsername.getText());
 
                             JPanel mainPageCard = mainPage.getMainPage();
                             JPanel profileCard = profilePage.getProfilePanel();
@@ -186,6 +188,8 @@ public class main {
                             JPanel removeMaterialPageCard = removeMaterialPage.getRemoveMaterialPanel();
                             JPanel addUserPageCard = addUserPage.getAddUserPanel();
                             JPanel searchPageCard = searchPage.getSearchPanel();
+                            JPanel editMaterialCard = editMaterialPage.getEditMaterial();
+                            JPanel removeUserCard = removeUserPage.getRemoveUserPanel();
 
                             mainPanel.add(mainPageCard, "main");
                             mainPanel.add(profileCard, "profile");
@@ -198,6 +202,8 @@ public class main {
                             mainPanel.add(removeMaterialPageCard, "remove material");
                             mainPanel.add(addUserPageCard, "add user");
                             mainPanel.add(searchPageCard, "search");
+                            mainPanel.add(editMaterialCard, "edit material");
+                            mainPanel.add(removeUserCard, "remove user");
 
                             window.add(mainPanel);
                             window.setSize(1024, 640);
@@ -236,5 +242,3 @@ public class main {
         });
     }
 }
-
-
