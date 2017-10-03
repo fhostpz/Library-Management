@@ -90,7 +90,7 @@ public class RemoveMaterial {
                     }
                 }
                 //Call a Dialog to confirm removal
-                confirmRemove remove = new confirmRemove(inputMaterialID);
+                ConfirmRemove remove = new ConfirmRemove(inputMaterialID);
                 remove.setDialogPurpose("remove material");
                 remove.setDataToDelete(theMaterial);
                 remove.pack();

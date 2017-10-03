@@ -176,7 +176,7 @@ public class main {
                             RemoveMaterial removeMaterialPage = new RemoveMaterial(mainPanel, materialMainPage.getMaterialTable());
                             AddUser addUserPage = new AddUser(mainPanel, inputUsername.getText());
                             Search searchPage = new Search(mainPanel);
-                            EditMaterial editMaterialPage = new EditMaterial(mainPanel);
+                            EditMaterial editMaterialPage = new EditMaterial(mainPanel, materialMainPage.getMaterialTable());
                             RemoveUser removeUserPage = new RemoveUser(mainPanel, inputUsername.getText());
 
                             JPanel mainPageCard = mainPage.getMainPage();

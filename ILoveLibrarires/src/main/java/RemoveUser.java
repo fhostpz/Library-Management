@@ -190,7 +190,7 @@ public class RemoveUser {
                                 }
                             }
                             //Call a Dialog to confirm removal
-                            confirmRemove remove = new confirmRemove(inputUserID);
+                            ConfirmRemove remove = new ConfirmRemove(inputUserID);
                             remove.setDialogPurpose("remove member");
                             remove.setDataToDelete(theUser);
                             remove.pack();

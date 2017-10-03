@@ -12,13 +12,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="231" column="30" lean-forward="false" selection-start-line="231" selection-start-column="30" selection-end-line="231" selection-end-column="30" />
+            <state relative-caret-position="341">
+              <caret line="178" column="123" lean-forward="false" selection-start-line="178" selection-start-column="123" selection-end-line="178" selection-end-column="123" />
               <folding>
                 <element signature="method#main#0;class#main#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RemoveMaterial.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/RemoveMaterial.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1615">
+              <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+              <folding>
+                <element signature="method#addToComboBox#0;class#RemoveMaterial#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddUser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/AddUser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="505">
+              <caret line="43" column="26" lean-forward="true" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditMaterial.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/EditMaterial.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding>
+                <element signature="class#1307:1628" expanded="false" />
+                <element signature="class#1674:2650" expanded="false" />
+                <element signature="method#clearJTextField#0;class#EditMaterial#0" expanded="false" />
+                <element signature="method#checkIfEmptyMaterial#0;class#EditMaterial#0" expanded="false" />
+                <element signature="method#checkIfEmpty#0;class#EditMaterial#0" expanded="false" />
+                <element signature="method#editMaterial1#0;class#EditMaterial#0" expanded="false" />
+                <element signature="method#verifymaterial#0;class#EditMaterial#0" expanded="false" />
+                <element signature="method#updateTable#0;class#EditMaterial#0" expanded="false" />
+                <element signature="e#9271#9287#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -34,15 +76,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/EditMaterial.java" />
         <option value="$PROJECT_DIR$/src/main/java/loginFail.java" />
         <option value="$PROJECT_DIR$/src/main/java/ConfirmRemoveUser.java" />
         <option value="$PROJECT_DIR$/src/main/java/MessageDialog.form" />
-        <option value="$PROJECT_DIR$/src/main/java/main.java" />
         <option value="$PROJECT_DIR$/src/main/java/Login.java" />
         <option value="$PROJECT_DIR$/src/main/java/confirmRemove.java" />
         <option value="$PROJECT_DIR$/src/main/java/RemoveMaterial.java" />
         <option value="$PROJECT_DIR$/src/main/java/RemoveUser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EditMaterial.java" />
+        <option value="$PROJECT_DIR$/src/main/java/AddMaterial.java" />
+        <option value="$PROJECT_DIR$/src/main/java/AddUser.java" />
       </list>
     </option>
   </component>
@@ -267,18 +311,20 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/AddMaterial.java</url>
+          <line>96</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/EditMaterial.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="115" column="24" lean-forward="false" selection-start-line="115" selection-start-column="16" selection-end-line="115" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/loginFail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -292,7 +338,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/confirmRemove.form">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ConfirmRemove.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
       </provider>
@@ -326,7 +372,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/confirmRemove.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ConfirmRemove.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5">
           <caret line="105" column="32" lean-forward="false" selection-start-line="105" selection-start-column="31" selection-end-line="105" selection-end-column="32" />
@@ -347,23 +393,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="178" column="123" lean-forward="false" selection-start-line="178" selection-start-column="123" selection-end-line="178" selection-end-column="123" />
+          <folding>
+            <element signature="method#main#0;class#main#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/RemoveMaterial.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2368">
+        <state relative-caret-position="-1615">
           <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
           <folding>
-            <element signature="class#837:1132" expanded="false" />
             <element signature="method#addToComboBox#0;class#RemoveMaterial#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/AddMaterial.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="231" column="30" lean-forward="false" selection-start-line="231" selection-start-column="30" selection-end-line="231" selection-end-column="30" />
+        <state relative-caret-position="357">
+          <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
           <folding>
-            <element signature="method#main#0;class#main#0" expanded="false" />
+            <element signature="method#AddMaterial#0;class#AddMaterial#0" expanded="false" />
+            <element signature="method#checkIfEmpty#0;class#AddMaterial#0" expanded="false" />
+            <element signature="method#clearJTextField#0;class#AddMaterial#0" expanded="false" />
+            <element signature="method#updateTable#0;class#AddMaterial#0" expanded="false" />
+            <element signature="e#3219#3235#0" expanded="true" />
+            <element signature="method#addMaterial#0;class#AddMaterial#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/AddUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="43" column="26" lean-forward="true" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EditMaterial.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="class#1307:1628" expanded="false" />
+            <element signature="class#1674:2650" expanded="false" />
+            <element signature="method#clearJTextField#0;class#EditMaterial#0" expanded="false" />
+            <element signature="method#checkIfEmptyMaterial#0;class#EditMaterial#0" expanded="false" />
+            <element signature="method#checkIfEmpty#0;class#EditMaterial#0" expanded="false" />
+            <element signature="method#editMaterial1#0;class#EditMaterial#0" expanded="false" />
+            <element signature="method#verifymaterial#0;class#EditMaterial#0" expanded="false" />
+            <element signature="method#updateTable#0;class#EditMaterial#0" expanded="false" />
+            <element signature="e#9271#9287#0" expanded="true" />
           </folding>
         </state>
       </provider>

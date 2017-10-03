@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class confirmRemove extends JDialog {
+public class ConfirmRemove extends JDialog {
     private JTextField inputMaterialID;
     private JPanel contentPane;
     private JButton buttonOK;
@@ -23,7 +23,7 @@ public class confirmRemove extends JDialog {
         this.dataToDelete.setText(dataToDelete);
     }
 
-    public confirmRemove(JTextField inputMaterialID) {
+    public ConfirmRemove(JTextField inputMaterialID) {
         this.inputMaterialID = inputMaterialID;
         setContentPane(contentPane);
         setModal(true);
