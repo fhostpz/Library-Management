@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ILoveLibrarires_jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/ILoveLibrarires_jar/ILoveLibrarires.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/ILoveLibrarires_jar/ILoveLibrarires_jar.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

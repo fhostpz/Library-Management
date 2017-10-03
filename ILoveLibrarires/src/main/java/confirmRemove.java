@@ -7,15 +7,20 @@ public class confirmRemove extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JLabel material_name_data;
+    private JLabel dataToDelete;
     private JLabel message1;
+    private String dialogPurpose;
 
     public void setMessage1(String message1) {
         this.message1.setText(message1);
     }
 
-    public void setMaterial_name_data(String material_name_data) {
-        this.material_name_data.setText(material_name_data);
+    public void setDialogPurpose(String dialogPurpose) {
+        this.dialogPurpose = dialogPurpose;
+    }
+
+    public void setDataToDelete(String dataToDelete) {
+        this.dataToDelete.setText(dataToDelete);
     }
 
     public confirmRemove(JTextField inputMaterialID) {
@@ -54,7 +59,13 @@ public class confirmRemove extends JDialog {
 
     private void onOK() {
         // add your code here
-        removeMaterial();
+        if (dialogPurpose.equals("remove member")){
+            removeMember();
+        } else if (dialogPurpose.equals("remove material")) {
+            removeMaterial();
+        } else {
+            System.out.println("Incorrect");
+        }
         dispose();
     }
 
@@ -93,6 +104,43 @@ public class confirmRemove extends JDialog {
                 try {
                     conn.close();
                 } catch (SQLException e){}
+                System.out.println("Connection success!");
+            }
+        }
+
+    }
+
+    public void removeMember(){
+        String jdbcClassName = "com.ibm.db2.jcc.DB2Driver";
+        String url = "jdbc:db2:testlib";
+        Connection conn = null;
+
+        try
+        {
+            Class.forName(jdbcClassName);
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Creating statement...");
+
+            // Extract records in ascending order by first name.
+            System.out.println("Fetching records in ascending order...");
+            String sql = ("DELETE FROM member WHERE MB_ID = '" + inputMaterialID.getText()+ "'");
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.execute();
+        }
+        catch(ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+
+        }
+        finally
+        {
+            if(conn != null)
+            {
                 System.out.println("Connection success!");
             }
         }

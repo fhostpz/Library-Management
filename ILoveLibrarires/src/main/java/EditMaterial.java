@@ -86,6 +86,7 @@ public class EditMaterial {
         }
         return false;
     }
+
     public boolean checkIfEmpty(){
         MessageDialog fail = new MessageDialog();
         if (inputTitle.getText().equals("") && inputISBN.getText().equals("")
