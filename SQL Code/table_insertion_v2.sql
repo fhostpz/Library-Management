@@ -48,6 +48,7 @@ insert into material_copy values ('MC00000009','MT0000008','Available')
 insert into material_copy values ('MC00000010','MT0000009','Available')
 insert into material_copy values ('MC00000011','MT0000010','Available')
 
+/* add new attributes mb_availability*/
 create table member(mb_id char(10) not null, mb_name varchar(80) not null, mb_gender char(1) not null check(mb_gender in ('M','F')), mb_email varchar(100) not null, mb_contact_no varchar(11) not null, mb_password varchar(20) not null, mb_dob date not null, mb_pin int not null, mb_material_borrowed int not null, mb_type_id char(4) not null,mb_availability varchar(7) check (mb_availability  in ('Offline','Online')) DEFAULT 'Offline', primary key (mb_id),foreign key (mb_type_id) references usertype(ut_id))
 insert into member values('1000000001', 'Arul', 'M', 'arul@e97a.com', '01010001000', '1234_abcd', '1997-01-01', 123456, 0, 'UT01',DEFAULT)
 insert into member values('1000000002', 'Bear', 'M', 'bear@e97a.com', '01012001200', '1234_abcd', '1997-02-01', 123456, 0, 'UT01',DEFAULT)
@@ -58,6 +59,7 @@ insert into member values('1000000006', 'Faez', 'M', 'faez@e97a.com', '010660066
 insert into member values('1000000007', 'Goku', 'F', 'goku@e97a.com', '01077007700', '1234_abcd', '1997-07-01', 123456, 0, 'UT03',DEFAULT)
 insert into member values('1000000008', 'Haku', 'F', 'haku@e97a.com', '01088008800', '1234_abcd', '1997-08-01', 123456, 0, 'UT04',DEFAULT)
 
+/* changes is_id datatype, autoincrement*/
 create table issue(is_id int not null GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),is_mc_id char(10) not null,is_mb_id char(10) not null,is_issue_date date not null,is_due_date date not null,is_return_date date,is_fine decimal(8, 2),primary key(is_id),foreign key (is_mc_id) references material_copy(mc_id),foreign key (is_mb_id) references member(mb_id))
 insert into issue(is_mc_id,is_mb_id,is_issue_date,is_due_date) values ('MC00000001','1000000005','2017-01-01','2017-01-30')
 insert into issue(is_mc_id,is_mb_id,is_issue_date,is_due_date) values ('MC00000002','1000000004','2017-01-02','2017-01-30')
